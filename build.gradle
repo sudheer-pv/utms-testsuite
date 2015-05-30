@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+
+war {
+    baseName = 'utms-testSuite'
+    version =  '0.1.0'
+}
+
+/*jar {
+    baseName = 'gs-actuator-service'
+    version =  '0.1.0'
+}*/
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web:1.2.3.RELEASE'
+    /*compile("org.springframework.boot:spring-boot-starter-actuator")
+    testCompile("org.springframework.boot:spring-boot-starter-test")*/
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:1.2.3.RELEASE'
+}
+
+configurations {
+    providedRuntime
+}
+
+
