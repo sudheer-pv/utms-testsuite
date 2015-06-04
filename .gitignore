@@ -1,0 +1,7 @@
+/build/
+/bin/
+/build/classes/
+.project
+.settings/
+.metadata/
+/RemoteSystemsTempFiles/
