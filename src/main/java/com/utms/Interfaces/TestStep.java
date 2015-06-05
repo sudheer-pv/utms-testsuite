@@ -1,6 +1,8 @@
 package com.utms.Interfaces;
 
 import com.utms.exceptions.TestStepFailedException;
+
+import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,5 +10,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface TestStep {
-    String execute() throws TestStepFailedException;
+    String execute(WebDriver driver) throws TestStepFailedException;
 }
