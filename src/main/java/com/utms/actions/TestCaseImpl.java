@@ -1,23 +1,21 @@
 package com.utms.actions;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.springframework.stereotype.Component;
-
+import com.utms.Interfaces.TestCase;
 import com.utms.entity.AutoTestStep;
 import com.utms.repo.AutoTestStepRepository;
 import com.utms.repo.ExeConfigRepository;
 import com.utms.resources.Parameters;
 import com.utms.resources.Result;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sudheer on 30/5/15.
  */
-@Component
-public class TestCaseImpl {
+public class TestCaseImpl implements TestCase{
 
 //	private PersonRepo personRepo;
 
@@ -42,7 +40,7 @@ public class TestCaseImpl {
 				capabilities, Parameters.ISREMOTE);
 		Result result = new Result();
 		result.setStartTime(System.nanoTime());
-		
+
 		for (TestStepImpl step : steps) {
 			step.execute(driver);
 			// TODO: make checks if result is correct or not
@@ -53,11 +51,11 @@ public class TestCaseImpl {
 		return result;
 	}
 
-	private List<TestStepImpl> getSteps() {
+	public List<TestStepImpl> getSteps() {
 		/*System.out.println(personRepo);
 		Person p1 = personRepo.findById(101);*/
 		List<AutoTestStep> steps = autoTestStepRepository.findByAutoTestCaseId(Integer.parseInt(testCaseId));
-		ArrayList<TestStepImpl> testSteps=new ArrayList<>();
+		ArrayList<TestStepImpl> testSteps=new ArrayList<TestStepImpl>();
 		for(AutoTestStep autoTestStep:steps){
 			TestStepImpl testStepImpl = new TestStepImpl(autoTestStep.getRefKeyword().getName(), autoTestStep.getObject().getLocator(), autoTestStep.getTestData());
 			testSteps.add(testStepImpl);

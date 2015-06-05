@@ -5,5 +5,9 @@
 .settings/
 .metadata/
 /RemoteSystemsTempFiles/
+<<<<<<< HEAD
 .gradle/
 .classpath
+=======
+/.idea/
+>>>>>>> b14b39d9692a7196f28895732c3234efed2f1de6
