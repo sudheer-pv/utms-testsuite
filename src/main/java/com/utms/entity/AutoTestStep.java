@@ -19,9 +19,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="AutoTestStep"
-    ,catalog="utms_latest"
-)
+@Table(name="AutoTestStep")
 public class AutoTestStep  implements java.io.Serializable {
 
      private Integer id;

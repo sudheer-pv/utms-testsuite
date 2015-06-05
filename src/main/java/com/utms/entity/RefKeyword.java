@@ -23,9 +23,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="RefKeyword"
-    ,catalog="utms_latest"
-)
+@Table(name="RefKeyword")
 public class RefKeyword  implements java.io.Serializable {
 
 

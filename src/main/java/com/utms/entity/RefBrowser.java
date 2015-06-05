@@ -23,9 +23,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="RefBrowser"
-    ,catalog="utms_latest"
-)
+@Table(name="RefBrowser")
 public class RefBrowser  implements java.io.Serializable {
 
 

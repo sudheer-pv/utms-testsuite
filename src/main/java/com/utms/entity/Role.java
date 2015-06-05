@@ -24,9 +24,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="Role"
-    ,catalog="utms_latest"
-)
+@Table(name="Role")
 public class Role  implements java.io.Serializable {
 
 

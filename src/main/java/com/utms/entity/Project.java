@@ -27,9 +27,7 @@ import javax.persistence.TemporalType;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="Project"
-    ,catalog="utms_latest"
-)
+@Table(name="Project")
 public class Project  implements java.io.Serializable {
 
 

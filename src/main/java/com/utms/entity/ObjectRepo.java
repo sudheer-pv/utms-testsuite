@@ -23,9 +23,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="ObjectRepo"
-    ,catalog="utms_latest"
-)
+@Table(name="ObjectRepo")
 public class ObjectRepo  implements java.io.Serializable {
 
 

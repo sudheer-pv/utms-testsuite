@@ -23,9 +23,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="Object"
-    ,catalog="utms_latest"
-)
+@Table(name="Object")
 public class Object  implements java.io.Serializable {
 
 

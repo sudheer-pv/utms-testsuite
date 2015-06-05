@@ -23,9 +23,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="RefOperatingSystem"
-    ,catalog="utms_latest"
-)
+@Table(name="RefOperatingSystem")
 public class RefOperatingSystem  implements java.io.Serializable {
 
 

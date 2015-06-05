@@ -5,4 +5,9 @@ package com.utms.exceptions;
  */
 public class TestStepFailedException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 }

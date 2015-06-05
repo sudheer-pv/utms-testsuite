@@ -24,9 +24,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="ExeConfig"
-    ,catalog="utms_latest"
-)
+@Table(name="ExeConfig")
 public class ExeConfig  implements java.io.Serializable {
 
 

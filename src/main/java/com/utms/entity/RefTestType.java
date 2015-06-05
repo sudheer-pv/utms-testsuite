@@ -21,9 +21,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="RefTestType"
-    ,catalog="utms_latest"
-)
+@Table(name="RefTestType")
 public class RefTestType  implements java.io.Serializable {
 
 

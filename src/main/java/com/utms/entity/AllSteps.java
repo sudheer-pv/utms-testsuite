@@ -19,9 +19,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="AllSteps"
-    ,catalog="utms_latest"
-)
+@Table(name="AllSteps")
 public class AllSteps  implements java.io.Serializable {
 
 

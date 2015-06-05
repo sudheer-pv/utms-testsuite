@@ -1,14 +1,26 @@
 package com.utms.Interfaces;
 
-import com.utms.exceptions.TestStepFailedException;
-
-import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
+
+import com.utms.actions.Action.Types;
+import com.utms.exceptions.TestStepFailedException;
 
 /**
  * Created by sudheer on 30/5/15.
  */
 @Component
 public interface TestStep {
-    String execute(WebDriver driver) throws TestStepFailedException;
+	String execute(PerformAction actionToBePerformed, TestStep step) throws TestStepFailedException;
+
+	public Types getActionType();
+
+	public void setActionType(Types actionType);
+
+	public String getData();
+
+	public void setData(String data);
+
+	public String getxPath();
+
+	public void setxPath(String xPath);
 }
