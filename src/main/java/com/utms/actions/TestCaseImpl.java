@@ -74,7 +74,7 @@ public class TestCaseImpl implements TestCase {
 		}
 		
 		result.setEndTime(System.nanoTime());
-		result.setMessage("Executed Successfully");
+		result.setMessage("Test case executed Successfully");
 		result.setResult(Parameters.STATUS);
 		return result;
 	}
