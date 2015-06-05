@@ -6,8 +6,10 @@ import com.utms.repo.AutoTestStepRepository;
 import com.utms.repo.ExeConfigRepository;
 import com.utms.resources.Parameters;
 import com.utms.resources.Result;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 /**
  * Created by sudheer on 30/5/15.
  */
+@Component
 public class TestCaseImpl implements TestCase{
 
 //	private PersonRepo personRepo;
