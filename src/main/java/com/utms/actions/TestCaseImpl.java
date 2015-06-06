@@ -1,5 +1,6 @@
 package com.utms.actions;
 
+import java.util.Iterator;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -35,7 +36,10 @@ public class TestCaseImpl implements ITestCase {
 		ITestStep testStep = null;
 		System.out.println("count : " + steps.size());
 		System.out.println("steps : " + steps);
-		for (AllAutoSteps allAutoTestStep : steps) {
+		Iterator<AllAutoSteps> iterator = steps.iterator();
+//		for (AllAutoSteps allAutoTestStep : steps) {
+		while (iterator.hasNext()) {
+			AllAutoSteps allAutoTestStep = iterator.next();
 			System.out.println("Start..." + allAutoTestStep);
 			System.out
 					.println("condition : " + allAutoTestStep.getIsTestStep());
@@ -73,7 +77,8 @@ public class TestCaseImpl implements ITestCase {
 			result.setMessage("Success!!!");
 			result.setResult(Parameters.STATUS);
 			result.setEndTime(System.nanoTime());
-			return result;
+			System.out.println("Returning Result: "+result);
+			//return result;
 		}
 
 		result.setEndTime(System.nanoTime());
