@@ -8,6 +8,10 @@ public class Result {
     long endTime;
     String message;
     String result;
+    
+    public Result() {
+		this.startTime = System.nanoTime();
+	}
 
     public void setStartTime(long startTime) {
         this.startTime = startTime;

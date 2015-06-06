@@ -1,6 +1,9 @@
 package com.utms.entity;
-// Generated 3 Jun, 2015 12:49:41 PM by Hibernate Tools 4.0.0
+// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
 
+
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -19,25 +23,28 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="AutoTestStep")
+@Table(name="AutoTestStep"
+    ,catalog="utms_latestV1"
+)
 public class AutoTestStep  implements java.io.Serializable {
+
 
      private Integer id;
      private Object object;
-     private AutoTestCase autoTestCase;
      private TestStep testStep;
      private RefKeyword refKeyword;
      private String testData;
+     private Set<AllAutoSteps> allAutoStepses = new HashSet<AllAutoSteps>(0);
 
     public AutoTestStep() {
     }
 
-    public AutoTestStep(Object object, AutoTestCase autoTestCase, TestStep testStep, RefKeyword refKeyword, String testData) {
+    public AutoTestStep(Object object, TestStep testStep, RefKeyword refKeyword, String testData, Set<AllAutoSteps> allAutoStepses) {
        this.object = object;
-       this.autoTestCase = autoTestCase;
        this.testStep = testStep;
        this.refKeyword = refKeyword;
        this.testData = testData;
+       this.allAutoStepses = allAutoStepses;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -60,16 +67,6 @@ public class AutoTestStep  implements java.io.Serializable {
     
     public void setObject(Object object) {
         this.object = object;
-    }
-
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="autotestcase_id")
-    public AutoTestCase getAutoTestCase() {
-        return this.autoTestCase;
-    }
-    
-    public void setAutoTestCase(AutoTestCase autoTestCase) {
-        this.autoTestCase = autoTestCase;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
@@ -100,6 +97,15 @@ public class AutoTestStep  implements java.io.Serializable {
     
     public void setTestData(String testData) {
         this.testData = testData;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="autoTestStep")
+    public Set<AllAutoSteps> getAllAutoStepses() {
+        return this.allAutoStepses;
+    }
+    
+    public void setAllAutoStepses(Set<AllAutoSteps> allAutoStepses) {
+        this.allAutoStepses = allAutoStepses;
     }
 
 

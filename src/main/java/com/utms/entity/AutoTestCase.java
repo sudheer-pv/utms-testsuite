@@ -1,6 +1,8 @@
 package com.utms.entity;
-// Generated 3 Jun, 2015 12:49:41 PM by Hibernate Tools 4.0.0
+// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
 
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,13 +11,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -23,24 +25,32 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="AutoTestCase")
+@Table(name="AutoTestCase"
+    ,catalog="utms_latestV1"
+)
 public class AutoTestCase  implements java.io.Serializable {
 
 
      private Integer id;
      private TestCase testCase;
-     private long moduleId;
+     private Module module;
      private String name;
-     private Set<AutoTestStep> autoTestSteps = new HashSet<AutoTestStep>(0);
+     private Set<AllAutoSteps> allAutoStepsesForAutoTestcaseId = new HashSet<AllAutoSteps>(0);
+     private Set<TestCaseResults> testCaseResultses = new HashSet<TestCaseResults>(0);
+     private Set<ExeConfig> exeConfigs = new HashSet<ExeConfig>(0);
+     private Set<AllAutoSteps> allAutoStepsesForLinkedAutoTestcaseId = new HashSet<AllAutoSteps>(0);
 
     public AutoTestCase() {
     }
 
-    public AutoTestCase(TestCase testCase, long moduleId, String name, Set<AutoTestStep> autoTestSteps) {
+    public AutoTestCase(TestCase testCase, Module module, String name, Set<AllAutoSteps> allAutoStepsesForAutoTestcaseId, Set<TestCaseResults> testCaseResultses, Set<ExeConfig> exeConfigs, Set<AllAutoSteps> allAutoStepsesForLinkedAutoTestcaseId) {
        this.testCase = testCase;
-       this.moduleId = moduleId;
+       this.module = module;
        this.name = name;
-       this.autoTestSteps = autoTestSteps;
+       this.allAutoStepsesForAutoTestcaseId = allAutoStepsesForAutoTestcaseId;
+       this.testCaseResultses = testCaseResultses;
+       this.exeConfigs = exeConfigs;
+       this.allAutoStepsesForLinkedAutoTestcaseId = allAutoStepsesForLinkedAutoTestcaseId;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -65,14 +75,14 @@ public class AutoTestCase  implements java.io.Serializable {
         this.testCase = testCase;
     }
 
-/*@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="module_id")*/
-    public long getModule() {
-        return this.moduleId;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="module_id")
+    public Module getModule() {
+        return this.module;
     }
     
-    public void setModule(long moduleId) {
-        this.moduleId = moduleId;
+    public void setModule(Module module) {
+        this.module = module;
     }
 
     
@@ -85,13 +95,45 @@ public class AutoTestCase  implements java.io.Serializable {
         this.name = name;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="autoTestCase")
-    public Set<AutoTestStep> getAutoTestSteps() {
-        return this.autoTestSteps;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="autoTestCaseByAutoTestcaseId" )
+@OrderBy("id ASC")
+    public Set<AllAutoSteps> getAllAutoStepsesForAutoTestcaseId() {
+        return this.allAutoStepsesForAutoTestcaseId;
     }
     
-    public void setAutoTestSteps(Set<AutoTestStep> autoTestSteps) {
-        this.autoTestSteps = autoTestSteps;
+    public void setAllAutoStepsesForAutoTestcaseId(Set<AllAutoSteps> allAutoStepsesForAutoTestcaseId) {
+        this.allAutoStepsesForAutoTestcaseId = allAutoStepsesForAutoTestcaseId;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="autoTestCase")
+@OrderBy("id ASC")
+    public Set<TestCaseResults> getTestCaseResultses() {
+        return this.testCaseResultses;
+    }
+    
+    public void setTestCaseResultses(Set<TestCaseResults> testCaseResultses) {
+        this.testCaseResultses = testCaseResultses;
+    }
+
+@ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name="ExeConfigAutoTestCase", catalog="utms_latestV1", joinColumns = { 
+        @JoinColumn(name="autoTestCase_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
+        @JoinColumn(name="exeConfig_id", nullable=false, updatable=false) })
+    public Set<ExeConfig> getExeConfigs() {
+        return this.exeConfigs;
+    }
+    
+    public void setExeConfigs(Set<ExeConfig> exeConfigs) {
+        this.exeConfigs = exeConfigs;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="autoTestCaseByLinkedAutoTestcaseId")
+    public Set<AllAutoSteps> getAllAutoStepsesForLinkedAutoTestcaseId() {
+        return this.allAutoStepsesForLinkedAutoTestcaseId;
+    }
+    
+    public void setAllAutoStepsesForLinkedAutoTestcaseId(Set<AllAutoSteps> allAutoStepsesForLinkedAutoTestcaseId) {
+        this.allAutoStepsesForLinkedAutoTestcaseId = allAutoStepsesForLinkedAutoTestcaseId;
     }
 
 

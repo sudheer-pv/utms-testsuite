@@ -1,15 +1,17 @@
 package com.utms.repo;
 
-import java.util.List;
-
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.utms.entity.AutoTestStep;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Contains domain logic pertaining to auto test step.
+ *
+ * @author Rajasekhar
+ * @version Revision: 1.0$ Date&Time:29 May, 2015,12:37:23 PM
+ */
 public interface AutoTestStepRepository extends
-		CrudRepository<AutoTestStep, Integer> {
-	public List<AutoTestStep> findByAutoTestCaseId(Integer autotestCaseId);
+		JpaRepository<AutoTestStep, Integer> {
 	
-	/*@Query("select u from AutoTestStep u  where u.AutoTestCase =:autotestCaseId ")
-    public List<AutoTestStep> getAutoTestCaseId(@Param("autotestCaseId") Integer autotestCaseId);*/
 }

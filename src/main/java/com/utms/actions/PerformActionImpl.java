@@ -6,11 +6,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Component;
 
-import com.utms.Interfaces.PerformAction;
+import com.utms.Interfaces.IPerformAction;
 import com.utms.actions.Action.Types;
 
 @Component
-public class PerformActionImpl implements PerformAction {
+public class PerformActionImpl implements IPerformAction {
 	private WebDriver driver = null;
 
 	/*
@@ -25,6 +25,7 @@ public class PerformActionImpl implements PerformAction {
 	}
 
 	private void click(String xPath) {
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.findElement(By.xpath(xPath)).click();
 	}
 
@@ -34,6 +35,7 @@ public class PerformActionImpl implements PerformAction {
 
 	private void enter(String xPath, String data) {
 		driver.findElement(By.xpath(xPath)).sendKeys(data);
+		System.out.println("enter() ssss");
 	}
 
 	private void closeBrowser() {
@@ -130,6 +132,7 @@ public class PerformActionImpl implements PerformAction {
 			break;
 
 		case ENTER:
+			System.out.println("ENTER in switch");
 			enter(xPath, data);
 			break;
 
