@@ -1,5 +1,5 @@
 package com.utms.entity;
-// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
+// Generated 9 Jun, 2015 3:30:57 PM by Hibernate Tools 4.0.0
 
 
 import javax.persistence.Column;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="AllSteps"
-    ,catalog="utms_latestV1"
+    ,catalog="utms_latestV2"
 )
 public class AllSteps  implements java.io.Serializable {
 
@@ -27,15 +27,17 @@ public class AllSteps  implements java.io.Serializable {
      private TestStep testStep;
      private TestCase testCaseByLinkedtestcaseId;
      private Boolean isTestStep;
+     private Integer stepNum;
 
     public AllSteps() {
     }
 
-    public AllSteps(TestCase testCaseByTestcaseId, TestStep testStep, TestCase testCaseByLinkedtestcaseId, Boolean isTestStep) {
+    public AllSteps(TestCase testCaseByTestcaseId, TestStep testStep, TestCase testCaseByLinkedtestcaseId, Boolean isTestStep, Integer stepNum) {
        this.testCaseByTestcaseId = testCaseByTestcaseId;
        this.testStep = testStep;
        this.testCaseByLinkedtestcaseId = testCaseByLinkedtestcaseId;
        this.isTestStep = isTestStep;
+       this.stepNum = stepNum;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -88,6 +90,16 @@ public class AllSteps  implements java.io.Serializable {
     
     public void setIsTestStep(Boolean isTestStep) {
         this.isTestStep = isTestStep;
+    }
+
+    
+    @Column(name="stepNum")
+    public Integer getStepNum() {
+        return this.stepNum;
+    }
+    
+    public void setStepNum(Integer stepNum) {
+        this.stepNum = stepNum;
     }
 
 

@@ -3,6 +3,8 @@ package com.utms.actions;
 import com.utms.Interfaces.IPerformAction;
 import com.utms.Interfaces.ITestStep;
 import com.utms.actions.Action.Types;
+import com.utms.entity.TestStepResults;
+import com.utms.resources.Parameters;
 
 /**
  * Created by sudheer on 30/5/15.
@@ -27,16 +29,24 @@ public class TestStepImpl implements ITestStep {
 		return super.toString();
 	}
 
-	public String execute(IPerformAction performAction) {
-		System.out.println("actionType : "+actionType);
-		System.out.println("xPath : "+xPath);
-		System.out.println("data : "+data);
-		performAction.execute(actionType, xPath, data);
-		// We call the execution method or write the logic here
-		// Based on the execution we return the result;
-		// if failed we throw exception if step fails
-		return "result";
+	public TestStepResults execute(IPerformAction performAction) {
+
+		TestStepResults testStepResult = null;
+		try {
+			
+			testStepResult = performAction.execute(actionType, xPath, data);
+			
+		} catch (Exception e) {
+			
+		} finally {
+			
+			if (testStepResult.getResult().equalsIgnoreCase(Parameters.FAILED)) {
+				performAction.takeScreenShot();
+			}
+			
+		}
+
+		return testStepResult;
 	}
-	
-	
+
 }

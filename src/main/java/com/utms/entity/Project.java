@@ -1,5 +1,5 @@
 package com.utms.entity;
-// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
+// Generated 9 Jun, 2015 3:30:57 PM by Hibernate Tools 4.0.0
 
 
 import java.util.Date;
@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="Project"
-    ,catalog="utms_latestV1"
+    ,catalog="utms_latestV2"
 )
 public class Project  implements java.io.Serializable {
 
@@ -188,7 +188,7 @@ public class Project  implements java.io.Serializable {
     }
 
 @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="ProjectUser", catalog="utms_latestV1", joinColumns = { 
+    @JoinTable(name="ProjectUser", catalog="utms_latestV2", joinColumns = { 
         @JoinColumn(name="project_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
         @JoinColumn(name="user_id", nullable=false, updatable=false) })
     public Set<User> getUsers() {

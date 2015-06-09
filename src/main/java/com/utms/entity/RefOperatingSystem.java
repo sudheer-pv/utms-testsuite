@@ -1,5 +1,5 @@
 package com.utms.entity;
-// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
+// Generated 9 Jun, 2015 3:30:57 PM by Hibernate Tools 4.0.0
 
 
 import java.util.HashSet;
@@ -10,9 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -20,21 +18,23 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="RefOperatingSystem"
-    ,catalog="utms_latestV1"
+    ,catalog="utms_latestV2"
 )
 public class RefOperatingSystem  implements java.io.Serializable {
 
 
      private Integer id;
      private String name;
-     private Set<ExeConfig> exeConfigs = new HashSet<ExeConfig>(0);
+     private String imgUrl;
+     private Set<RefOsRefBrowser> refOsRefBrowsers = new HashSet<RefOsRefBrowser>(0);
 
     public RefOperatingSystem() {
     }
 
-    public RefOperatingSystem(String name, Set<ExeConfig> exeConfigs) {
+    public RefOperatingSystem(String name, String imgUrl, Set<RefOsRefBrowser> refOsRefBrowsers) {
        this.name = name;
-       this.exeConfigs = exeConfigs;
+       this.imgUrl = imgUrl;
+       this.refOsRefBrowsers = refOsRefBrowsers;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -59,16 +59,23 @@ public class RefOperatingSystem  implements java.io.Serializable {
         this.name = name;
     }
 
-@ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="ExeConfigRefOS", catalog="utms_latestV1", joinColumns = { 
-        @JoinColumn(name="refOperatingSystem_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="exeConfig_id", nullable=false, updatable=false) })
-    public Set<ExeConfig> getExeConfigs() {
-        return this.exeConfigs;
+    
+    @Column(name="img_url", length=45)
+    public String getImgUrl() {
+        return this.imgUrl;
     }
     
-    public void setExeConfigs(Set<ExeConfig> exeConfigs) {
-        this.exeConfigs = exeConfigs;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="refOperatingSystem")
+    public Set<RefOsRefBrowser> getRefOsRefBrowsers() {
+        return this.refOsRefBrowsers;
+    }
+    
+    public void setRefOsRefBrowsers(Set<RefOsRefBrowser> refOsRefBrowsers) {
+        this.refOsRefBrowsers = refOsRefBrowsers;
     }
 
 

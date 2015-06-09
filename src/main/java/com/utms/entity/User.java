@@ -1,5 +1,5 @@
 package com.utms.entity;
-// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
+// Generated 9 Jun, 2015 3:30:57 PM by Hibernate Tools 4.0.0
 
 
 import java.util.HashSet;
@@ -21,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="User"
-    ,catalog="utms_latestV1"
+    ,catalog="utms_latestV2"
 )
 public class User  implements java.io.Serializable {
 
@@ -159,7 +159,7 @@ public class User  implements java.io.Serializable {
     }
 
 @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="UserRole", catalog="utms_latestV1", joinColumns = { 
+    @JoinTable(name="UserRole", catalog="utms_latestV2", joinColumns = { 
         @JoinColumn(name="user_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
         @JoinColumn(name="role_id", nullable=false, updatable=false) })
     public Set<Role> getRoles() {
@@ -171,7 +171,7 @@ public class User  implements java.io.Serializable {
     }
 
 @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="ProjectUser", catalog="utms_latestV1", joinColumns = { 
+    @JoinTable(name="ProjectUser", catalog="utms_latestV2", joinColumns = { 
         @JoinColumn(name="user_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
         @JoinColumn(name="project_id", nullable=false, updatable=false) })
     public Set<Project> getProjects() {

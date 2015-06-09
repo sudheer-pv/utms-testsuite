@@ -1,7 +1,9 @@
 package com.utms.entity;
-// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
+// Generated 9 Jun, 2015 3:30:57 PM by Hibernate Tools 4.0.0
 
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -17,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="RefUrl"
-    ,catalog="utms_latestV1"
+    ,catalog="utms_latestV2"
 )
 public class RefUrl  implements java.io.Serializable {
 
@@ -25,13 +28,15 @@ public class RefUrl  implements java.io.Serializable {
      private Integer id;
      private Project project;
      private String url;
+     private Set<ExeConfig> exeConfigs = new HashSet<ExeConfig>(0);
 
     public RefUrl() {
     }
 
-    public RefUrl(Project project, String url) {
+    public RefUrl(Project project, String url, Set<ExeConfig> exeConfigs) {
        this.project = project;
        this.url = url;
+       this.exeConfigs = exeConfigs;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -64,6 +69,15 @@ public class RefUrl  implements java.io.Serializable {
     
     public void setUrl(String url) {
         this.url = url;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="refUrl")
+    public Set<ExeConfig> getExeConfigs() {
+        return this.exeConfigs;
+    }
+    
+    public void setExeConfigs(Set<ExeConfig> exeConfigs) {
+        this.exeConfigs = exeConfigs;
     }
 
 

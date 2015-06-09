@@ -1,6 +1,7 @@
 package com.utms.actions;
 
-import java.util.Iterator;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -11,9 +12,10 @@ import com.utms.Interfaces.ITestStep;
 import com.utms.entity.AllAutoSteps;
 import com.utms.entity.AutoTestCase;
 import com.utms.entity.AutoTestStep;
+import com.utms.entity.ScreenShotDetails;
+import com.utms.entity.TestStepResults;
 import com.utms.exceptions.TestStepFailedException;
 import com.utms.resources.Parameters;
-import com.utms.resources.Result;
 
 /**
  * Created by sudheer on 30/5/15.
@@ -21,70 +23,69 @@ import com.utms.resources.Result;
 @Component
 public class TestCaseImpl implements ITestCase {
 
+	private String errorReason = null;
 	public TestCaseImpl() {
 		// nothing to do
 	}
 
-	public Result execute(AutoTestCase autoTestCase,
+	public Set<TestStepResults> execute(AutoTestCase autoTestCase,
 			IPerformAction performAction) {
-		// Get the list of test steps from the db
-		// List<ITestStep> steps = getAutoTestSteps(autoTestCase);
+
+		Set<TestStepResults> allTestStepResults = new HashSet<TestStepResults>();
 		Set<AllAutoSteps> steps = autoTestCase
 				.getAllAutoStepsesForAutoTestcaseId();
 
-		Result result = new Result();
 		ITestStep testStep = null;
-		System.out.println("count : " + steps.size());
-		System.out.println("steps : " + steps);
-		Iterator<AllAutoSteps> iterator = steps.iterator();
-//		for (AllAutoSteps allAutoTestStep : steps) {
-		while (iterator.hasNext()) {
-			AllAutoSteps allAutoTestStep = iterator.next();
-			System.out.println("Start..." + allAutoTestStep);
-			System.out
-					.println("condition : " + allAutoTestStep.getIsTestStep());
+		
+		for (AllAutoSteps allAutoTestStep : steps) {
+			TestStepResults testStepResult = new TestStepResults();
+			
 			try {
 				if (!allAutoTestStep.getIsTestStep()) {
 					// Means this is a test case
 					AutoTestCase refAutoTestCase = allAutoTestStep
 							.getAutoTestCaseByAutoTestcaseId();
 					ITestCase testCase = new TestCaseImpl();
-					result = testCase.execute(refAutoTestCase, performAction);
+					allTestStepResults = testCase.execute(refAutoTestCase,
+							performAction);
 				} else {
 					// This is a test step
-					System.out.println("else");
 					AutoTestStep autoTestStep = allAutoTestStep
 							.getAutoTestStep();
-					System.out.println("actionType 1 : "
-							+ autoTestStep.getRefKeyword().getName());
-					System.out.println("xPath 1 : "
-							+ autoTestStep.getObject().getLocator());
-					System.out
-							.println("data 1 : " + autoTestStep.getTestData());
+					ScreenShotDetails.setTestStepId(autoTestStep.getId());
 					testStep = new TestStepImpl(autoTestStep.getRefKeyword()
 							.getName(), autoTestStep.getObject().getLocator(),
 							autoTestStep.getTestData());
-					String stepResult = testStep.execute(performAction);
-					System.out.println("result : " + result);
+					
+					testStepResult.setStartDateTime(new Date());
+					testStepResult = testStep.execute(performAction);
+
 				}
 			} catch (TestStepFailedException e) {
-				// TODO Pass the error properly
 				e.printStackTrace();
+			}finally{
+				if((testStepResult.getResult()).equalsIgnoreCase(Parameters.FAILED)){
+					setErrorReason(testStepResult.getResult());
+				}
+				testStepResult.setEndDateTime(new Date());
+				
+				allTestStepResults.add(testStepResult);
 			}
 
 			// TODO: make checks if result is correct or not
 			// FIXME: If failed then we need to see what to be done;
-			result.setMessage("Success!!!");
-			result.setResult(Parameters.STATUS);
-			result.setEndTime(System.nanoTime());
-			System.out.println("Returning Result: "+result);
-			//return result;
+			
 		}
 
-		result.setEndTime(System.nanoTime());
-		result.setMessage("Test case executed Successfully");
-		result.setResult(Parameters.STATUS);
-		return result;
+		return allTestStepResults;
+	}
+
+	public String getErrorReason() {
+		return errorReason;
+	}
+
+	public void setErrorReason(String errorReason) {
+		this.errorReason = errorReason;
 	}
 
 }

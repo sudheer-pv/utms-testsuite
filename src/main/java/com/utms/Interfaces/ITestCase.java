@@ -1,16 +1,17 @@
 package com.utms.Interfaces;
 
-import java.util.List;
+import java.util.Set;
 
 import com.utms.entity.AutoTestCase;
-import com.utms.repo.AutoTestStepRepository;
-import com.utms.repo.ExeConfigRepository;
-import com.utms.resources.Result;
+import com.utms.entity.TestStepResults;
 
 /**
  * Created by sudheer on 29/5/15.
  */
 
 public interface ITestCase {
-	Result execute(AutoTestCase autoTestCase, IPerformAction performAction);
+	
+	Set<TestStepResults> execute(AutoTestCase autoTestCase, IPerformAction performAction);
+	
+	String getErrorReason();
 }

@@ -1,5 +1,5 @@
 package com.utms.entity;
-// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
+// Generated 9 Jun, 2015 3:30:57 PM by Hibernate Tools 4.0.0
 
 
 import java.util.HashSet;
@@ -22,33 +22,29 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="ExeConfig"
-    ,catalog="utms_latestV1"
+    ,catalog="utms_latestV2"
 )
 public class ExeConfig  implements java.io.Serializable {
 
 
      private Integer id;
      private Project project;
+     private RefUrl refUrl;
      private String runId;
-     private String url;
      private String name;
-     private Set<ExeRun> exeRuns = new HashSet<ExeRun>(0);
-     private Set<RefOperatingSystem> refOperatingSystems = new HashSet<RefOperatingSystem>(0);
-     private Set<RefBrowser> refBrowsers = new HashSet<RefBrowser>(0);
      private Set<AutoTestCase> autoTestCases = new HashSet<AutoTestCase>(0);
+     private Set<ExeConfigRefOsRefBrowser> exeConfigRefOsRefBrowsers = new HashSet<ExeConfigRefOsRefBrowser>(0);
 
     public ExeConfig() {
     }
 
-    public ExeConfig(Project project, String runId, String url, String name, Set<ExeRun> exeRuns, Set<RefOperatingSystem> refOperatingSystems, Set<RefBrowser> refBrowsers, Set<AutoTestCase> autoTestCases) {
+    public ExeConfig(Project project, RefUrl refUrl, String runId, String name, Set<AutoTestCase> autoTestCases, Set<ExeConfigRefOsRefBrowser> exeConfigRefOsRefBrowsers) {
        this.project = project;
+       this.refUrl = refUrl;
        this.runId = runId;
-       this.url = url;
        this.name = name;
-       this.exeRuns = exeRuns;
-       this.refOperatingSystems = refOperatingSystems;
-       this.refBrowsers = refBrowsers;
        this.autoTestCases = autoTestCases;
+       this.exeConfigRefOsRefBrowsers = exeConfigRefOsRefBrowsers;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -73,6 +69,16 @@ public class ExeConfig  implements java.io.Serializable {
         this.project = project;
     }
 
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="refUrl_id")
+    public RefUrl getRefUrl() {
+        return this.refUrl;
+    }
+    
+    public void setRefUrl(RefUrl refUrl) {
+        this.refUrl = refUrl;
+    }
+
     
     @Column(name="runId", length=45)
     public String getRunId() {
@@ -81,16 +87,6 @@ public class ExeConfig  implements java.io.Serializable {
     
     public void setRunId(String runId) {
         this.runId = runId;
-    }
-
-    
-    @Column(name="url", length=45)
-    public String getUrl() {
-        return this.url;
-    }
-    
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     
@@ -103,41 +99,8 @@ public class ExeConfig  implements java.io.Serializable {
         this.name = name;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="exeConfig")
-    public Set<ExeRun> getExeRuns() {
-        return this.exeRuns;
-    }
-    
-    public void setExeRuns(Set<ExeRun> exeRuns) {
-        this.exeRuns = exeRuns;
-    }
-
 @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="ExeConfigRefOS", catalog="utms_latestV1", joinColumns = { 
-        @JoinColumn(name="exeConfig_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="refOperatingSystem_id", nullable=false, updatable=false) })
-    public Set<RefOperatingSystem> getRefOperatingSystems() {
-        return this.refOperatingSystems;
-    }
-    
-    public void setRefOperatingSystems(Set<RefOperatingSystem> refOperatingSystems) {
-        this.refOperatingSystems = refOperatingSystems;
-    }
-
-@ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="ExeConfigRefBrowser", catalog="utms_latestV1", joinColumns = { 
-        @JoinColumn(name="exeConfig_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="refBrowser_id", nullable=false, updatable=false) })
-    public Set<RefBrowser> getRefBrowsers() {
-        return this.refBrowsers;
-    }
-    
-    public void setRefBrowsers(Set<RefBrowser> refBrowsers) {
-        this.refBrowsers = refBrowsers;
-    }
-
-@ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="ExeConfigAutoTestCase", catalog="utms_latestV1", joinColumns = { 
+    @JoinTable(name="ExeConfigAutoTestCase", catalog="utms_latestV2", joinColumns = { 
         @JoinColumn(name="exeConfig_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
         @JoinColumn(name="autoTestCase_id", nullable=false, updatable=false) })
     public Set<AutoTestCase> getAutoTestCases() {
@@ -146,6 +109,15 @@ public class ExeConfig  implements java.io.Serializable {
     
     public void setAutoTestCases(Set<AutoTestCase> autoTestCases) {
         this.autoTestCases = autoTestCases;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="exeConfig")
+    public Set<ExeConfigRefOsRefBrowser> getExeConfigRefOsRefBrowsers() {
+        return this.exeConfigRefOsRefBrowsers;
+    }
+    
+    public void setExeConfigRefOsRefBrowsers(Set<ExeConfigRefOsRefBrowser> exeConfigRefOsRefBrowsers) {
+        this.exeConfigRefOsRefBrowsers = exeConfigRefOsRefBrowsers;
     }
 
 

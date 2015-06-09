@@ -1,5 +1,5 @@
 package com.utms.entity;
-// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
+// Generated 9 Jun, 2015 3:30:57 PM by Hibernate Tools 4.0.0
 
 
 import javax.persistence.Column;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="TestData"
-    ,catalog="utms_latestV1"
+    ,catalog="utms_latestV2"
 )
 public class TestData  implements java.io.Serializable {
 

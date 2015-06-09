@@ -1,5 +1,5 @@
 package com.utms.entity;
-// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
+// Generated 9 Jun, 2015 3:30:57 PM by Hibernate Tools 4.0.0
 
 
 import java.util.HashSet;
@@ -18,21 +18,19 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="TestStep"
-    ,catalog="utms_latestV1"
+    ,catalog="utms_latestV2"
 )
 public class TestStep  implements java.io.Serializable {
 
 
      private Integer id;
-     private String stepNum;
      private String value;
      private Set<AllSteps> allStepses = new HashSet<AllSteps>(0);
 
     public TestStep() {
     }
 
-    public TestStep(String stepNum, String value, Set<AllSteps> allStepses) {
-       this.stepNum = stepNum;
+    public TestStep(String value, Set<AllSteps> allStepses) {
        this.value = value;
        this.allStepses = allStepses;
     }
@@ -47,16 +45,6 @@ public class TestStep  implements java.io.Serializable {
     
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    
-    @Column(name="stepNum", length=45)
-    public String getStepNum() {
-        return this.stepNum;
-    }
-    
-    public void setStepNum(String stepNum) {
-        this.stepNum = stepNum;
     }
 
     

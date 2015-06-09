@@ -1,11 +1,13 @@
 package com.utms.exceptions;
 
-import com.utms.resources.Result;
 
 /**
  * Created by sudheer on 30/5/15.
  */
+@SuppressWarnings("serial")
 public class TestCaseFailedException extends Throwable {
-    public TestCaseFailedException(Result s) {
-    }
+    public TestCaseFailedException() {
+		// TODO Auto-generated constructor stub
+    	super("Test Case Failed!!!!!");
+	}
 }

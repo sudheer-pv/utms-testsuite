@@ -1,5 +1,5 @@
 package com.utms.entity;
-// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
+// Generated 9 Jun, 2015 3:30:57 PM by Hibernate Tools 4.0.0
 
 
 import java.util.HashSet;
@@ -20,14 +20,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="Object"
-    ,catalog="utms_latestV1"
+    ,catalog="utms_latestV2"
 )
 public class Object  implements java.io.Serializable {
 
 
      private Integer id;
      private ObjectRepo objectRepo;
-     private RefObjectType refObjectType;
      private String name;
      private String locator;
      private Set<AutoTestStep> autoTestSteps = new HashSet<AutoTestStep>(0);
@@ -35,9 +34,8 @@ public class Object  implements java.io.Serializable {
     public Object() {
     }
 
-    public Object(ObjectRepo objectRepo, RefObjectType refObjectType, String name, String locator, Set<AutoTestStep> autoTestSteps) {
+    public Object(ObjectRepo objectRepo, String name, String locator, Set<AutoTestStep> autoTestSteps) {
        this.objectRepo = objectRepo;
-       this.refObjectType = refObjectType;
        this.name = name;
        this.locator = locator;
        this.autoTestSteps = autoTestSteps;
@@ -63,16 +61,6 @@ public class Object  implements java.io.Serializable {
     
     public void setObjectRepo(ObjectRepo objectRepo) {
         this.objectRepo = objectRepo;
-    }
-
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="refObjectType_id")
-    public RefObjectType getRefObjectType() {
-        return this.refObjectType;
-    }
-    
-    public void setRefObjectType(RefObjectType refObjectType) {
-        this.refObjectType = refObjectType;
     }
 
     

@@ -1,5 +1,5 @@
 package com.utms.entity;
-// Generated 6 Jun, 2015 5:49:38 PM by Hibernate Tools 4.0.0
+// Generated 9 Jun, 2015 3:30:57 PM by Hibernate Tools 4.0.0
 
 
 import java.util.Date;
@@ -23,13 +23,13 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="ExeRun"
-    ,catalog="utms_latestV1"
+    ,catalog="utms_latestV2"
 )
 public class ExeRun  implements java.io.Serializable {
 
 
      private Integer id;
-     private ExeConfig exeConfig;
+     private ExeConfigRefOsRefBrowser exeConfigRefOsRefBrowser;
      private Date startDateTime;
      private Date endDateTime;
      private Set<TestCaseResults> testCaseResultses = new HashSet<TestCaseResults>(0);
@@ -37,8 +37,8 @@ public class ExeRun  implements java.io.Serializable {
     public ExeRun() {
     }
 
-    public ExeRun(ExeConfig exeConfig, Date startDateTime, Date endDateTime, Set<TestCaseResults> testCaseResultses) {
-       this.exeConfig = exeConfig;
+    public ExeRun(ExeConfigRefOsRefBrowser exeConfigRefOsRefBrowser, Date startDateTime, Date endDateTime, Set<TestCaseResults> testCaseResultses) {
+       this.exeConfigRefOsRefBrowser = exeConfigRefOsRefBrowser;
        this.startDateTime = startDateTime;
        this.endDateTime = endDateTime;
        this.testCaseResultses = testCaseResultses;
@@ -57,13 +57,13 @@ public class ExeRun  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="exeConfig_id")
-    public ExeConfig getExeConfig() {
-        return this.exeConfig;
+    @JoinColumn(name="exeConfigRefOsRefbrowser_id")
+    public ExeConfigRefOsRefBrowser getExeConfigRefOsRefBrowser() {
+        return this.exeConfigRefOsRefBrowser;
     }
     
-    public void setExeConfig(ExeConfig exeConfig) {
-        this.exeConfig = exeConfig;
+    public void setExeConfigRefOsRefBrowser(ExeConfigRefOsRefBrowser exeConfigRefOsRefBrowser) {
+        this.exeConfigRefOsRefBrowser = exeConfigRefOsRefBrowser;
     }
 
     @Temporal(TemporalType.DATE)
