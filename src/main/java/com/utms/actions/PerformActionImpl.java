@@ -61,7 +61,7 @@ public class PerformActionImpl implements IPerformAction {
 			alert.accept();
 			setTestStepResult(Parameters.PASSED, " Unable to click Alert ", "");
 		} catch (Exception e) {
-			setTestStepResult(Parameters.FAILED, " Unable to click Alert ", "");
+			setTestStepResult(Parameters.FAILED, "", " Unable to click Alert ");
 		}
 
 	}
@@ -120,8 +120,8 @@ public class PerformActionImpl implements IPerformAction {
 		} catch (Exception e) {
 
 			System.out.println("Unable To Close The Driver");
-			setTestStepResult(Parameters.FAILED, "Unable To Open The URl "
-					+ driver.getCurrentUrl(), "");
+			setTestStepResult(Parameters.FAILED, "", "Unable To Open The URl "
+					+ driver.getCurrentUrl());
 		}
 
 	}
@@ -139,8 +139,8 @@ public class PerformActionImpl implements IPerformAction {
 		} catch (Exception e) {
 
 			System.out.println("Unable To Close The Driver");
-			setTestStepResult(Parameters.FAILED, "Unable to Clicked Element "
-					+ xPath, "");
+			setTestStepResult(Parameters.FAILED, "", "Unable to Clicked Element "
+					+ xPath);
 		}
 	}
 
@@ -156,8 +156,8 @@ public class PerformActionImpl implements IPerformAction {
 		} catch (Exception e) {
 
 			System.out.println("Unable To Close The Driver");
-			setTestStepResult(Parameters.FAILED, "Unable To Clear The Field",
-					"");
+			setTestStepResult(Parameters.FAILED, "",
+					"Unable To Clear The Field");
 		}
 
 	}
@@ -172,8 +172,8 @@ public class PerformActionImpl implements IPerformAction {
 
 		} catch (Exception e) {
 
-			setTestStepResult(Parameters.FAILED, "Unable To Entered The Data ",
-					"");
+			setTestStepResult(Parameters.FAILED, "",
+					"Unable To Entered The Data ");
 		}
 
 	}
@@ -185,8 +185,8 @@ public class PerformActionImpl implements IPerformAction {
 					"");
 		} catch (Exception e) {
 			System.out.println("Unable To Close The Browser");
-			setTestStepResult(Parameters.FAILED, "Unable To Close the Browser",
-					"");
+			setTestStepResult(Parameters.FAILED, "",
+					"Unable To Close the Browser");
 		}
 	}
 
@@ -194,8 +194,8 @@ public class PerformActionImpl implements IPerformAction {
 		try {
 			driver.quit();
 		} catch (Exception e) {
-			setTestStepResult(Parameters.FAILED, "Unable To Close The Driver",
-					"");
+			setTestStepResult(Parameters.FAILED, "",
+					"Unable To Close The Driver");
 		}
 
 	}
@@ -211,8 +211,8 @@ public class PerformActionImpl implements IPerformAction {
 
 		} catch (Exception e) {
 
-			setTestStepResult(Parameters.FAILED,
-					"Unable To Delete Cookies & Reload The Page", "");
+			setTestStepResult(Parameters.FAILED, "",
+					"Unable To Delete Cookies & Reload The Page");
 
 		}
 	}
@@ -288,8 +288,8 @@ public class PerformActionImpl implements IPerformAction {
 			setTestStepResult(Parameters.PASSED,
 					"Select object Created successfully ", "");
 		} catch (Exception e) {
-			setTestStepResult(Parameters.FAILED,
-					"Exception in creating select object ", "");
+			setTestStepResult(Parameters.FAILED, "",
+					"Exception in creating select object ");
 		}
 
 	}
@@ -378,8 +378,8 @@ public class PerformActionImpl implements IPerformAction {
 			setTestStepResult(Parameters.PASSED,
 					"Has gone to the element Successfully ", "");
 		} catch (Exception e) {
-			setTestStepResult(Parameters.FAILED,
-					" Exception in executing SELECTWINDOW ", "");
+			setTestStepResult(Parameters.FAILED, "",
+					" Exception in executing SELECTWINDOW ");
 		}
 	}
 

@@ -65,7 +65,7 @@ public class TestCaseImpl implements ITestCase {
 				e.printStackTrace();
 			}finally{
 				if((testStepResult.getResult()).equalsIgnoreCase(Parameters.FAILED)){
-					setErrorReason(testStepResult.getResult());
+					setErrorReason(testStepResult.getErrorReason());
 				}
 				testStepResult.setEndDateTime(new Date());
 				

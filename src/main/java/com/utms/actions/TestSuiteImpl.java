@@ -90,27 +90,32 @@ public class TestSuiteImpl implements ITestSuite, Runnable {
 			ScreenShotDetails.setTestCaseName(autoTestCase.getName());
 
 			testCaseResults.setStartDateTime(new Date());
+			Set<TestStepResults> testStepResults = null;
+			try {
+				// This is a test case
+				testStepResults = testCase.execute(autoTestCase, performAction);
+				
+			} catch (Exception e) {
 
-			// This is a test case
-			Set<TestStepResults> testStepResults = testCase.execute(
-					autoTestCase, performAction);
+			} finally {
 
-			testCaseResults.setResult(testCase.getErrorReason());
+				testCaseResults.setEndDateTime(new Date());
 
-			testCaseResults.setTestStepResultses(testStepResults);
+				if ((testCase.getErrorReason()) == null) {
+					testCaseResults.setResult(Parameters.PASSED);
+				} else {
+					testCaseResults.setResult(Parameters.FAILED);
+					testCaseResults.setErrorReason(testCase.getErrorReason());
+				}
 
-			testCaseResults.setEndDateTime(new Date());
+				testCaseResults.setTestStepResultses(testStepResults);
 
-			allTestCaseResults.add(testCaseResults);
+				allTestCaseResults.add(testCaseResults);
 
-			/*
-			 * if (result.getResult().equals(Parameters.FAILED)) { // We need to
-			 * see if we are implementing the skip option we // return
-			 * Parameters.PARTIAL_SUCCESS report.setResult(Parameters.FAILED);
-			 * report.setResultList(resultList); // return report; }
-			 * resultList.add(result);
-			 */
-			System.out.println("Results : " + allTestCaseResults);
+				System.out.println("Results : " + allTestCaseResults);
+			}
+			
+
 		}
 		// return report;
 		performAction.execute(Action.getActionTypeByString("closebrowser"),
