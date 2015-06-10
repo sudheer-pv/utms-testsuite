@@ -13,6 +13,5 @@ public class Parameters {
 	public static final String CHROME = "chrome";
 	public static final String IE = "ie";
 	public static final String INTERNATE_EXPLORE = "internate explore";
-	public static final boolean ISREMOTE = true;
-	public static final String HUBURL = "http://172.22.60.32:5555/wd/hub";
+	
 }

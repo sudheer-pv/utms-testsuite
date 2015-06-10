@@ -12,6 +12,7 @@ import com.utms.Interfaces.IPerformAction;
 import com.utms.Interfaces.ITestSuite;
 import com.utms.entity.ExeConfig;
 import com.utms.repo.ExeConfigRepository;
+import com.utms.repo.ExeRunRepository;
 
 /**
  * Created by sudheer on 30/5/15.
@@ -19,12 +20,13 @@ import com.utms.repo.ExeConfigRepository;
 @RestController
 public class ProjectServices {
 
-    @RequestMapping(value = "/executeTestCase", method = RequestMethod.GET)
+    @RequestMapping(value = "/executeTestSuite", method = RequestMethod.GET)
     @ResponseBody
     public void executeTestCase(@RequestParam(value = "configId", required = true) String configId){
     	// Get the desired configuration from the db
-    	ExeConfig exeConfig = exeConfigRepository.getExeConfig(Integer
+    	ExeConfig exeConfig = exeConfigRepository.getExeConfigById(Integer
 				.parseInt(configId));
+    	testSuite.setExeRunRepository(exeRunRepository);
     	testSuite.setPerformAction(performAction);
         testSuite.invokeTestSuite(exeConfig);
       //return 
@@ -38,6 +40,9 @@ public class ProjectServices {
     
     @Autowired
     ExeConfigRepository exeConfigRepository;
+    
+    @Autowired
+    ExeRunRepository exeRunRepository;
     
     @Autowired
     ITestSuite testSuite;

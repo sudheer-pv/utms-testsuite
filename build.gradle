@@ -14,8 +14,11 @@ apply plugin: 'spring-boot'
 apply plugin: 'war'
 
 war {
-    baseName = 'utms-testSuite'
-    version =  '0.1.0'
+    baseName = 'utms-testsuite'
+}
+
+bootRepackage {
+    mainClass = 'com.utms.Application'
 }
 
 /*jar {
@@ -81,6 +84,7 @@ dependencies {
     
     
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:1.2.3.RELEASE'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     
 }
 

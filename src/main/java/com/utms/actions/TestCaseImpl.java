@@ -14,8 +14,8 @@ import com.utms.entity.AutoTestCase;
 import com.utms.entity.AutoTestStep;
 import com.utms.entity.ScreenShotDetails;
 import com.utms.entity.TestStepResults;
+import com.utms.exceptions.TestCaseFailedException;
 import com.utms.exceptions.TestStepFailedException;
-import com.utms.resources.Parameters;
 
 /**
  * Created by sudheer on 30/5/15.
@@ -23,13 +23,12 @@ import com.utms.resources.Parameters;
 @Component
 public class TestCaseImpl implements ITestCase {
 
-	private String errorReason = null;
 	public TestCaseImpl() {
 		// nothing to do
 	}
 
 	public Set<TestStepResults> execute(AutoTestCase autoTestCase,
-			IPerformAction performAction) {
+			IPerformAction performAction) throws TestCaseFailedException {
 
 		Set<TestStepResults> allTestStepResults = new HashSet<TestStepResults>();
 		Set<AllAutoSteps> steps = autoTestCase
@@ -63,12 +62,10 @@ public class TestCaseImpl implements ITestCase {
 				}
 			} catch (TestStepFailedException e) {
 				e.printStackTrace();
-			}finally{
-				if((testStepResult.getResult()).equalsIgnoreCase(Parameters.FAILED)){
-					setErrorReason(testStepResult.getErrorReason());
-				}
-				testStepResult.setEndDateTime(new Date());
+				throw new TestCaseFailedException(e.getMessage());
 				
+			}finally{
+				testStepResult.setEndDateTime(new Date());
 				allTestStepResults.add(testStepResult);
 			}
 
@@ -79,13 +76,4 @@ public class TestCaseImpl implements ITestCase {
 
 		return allTestStepResults;
 	}
-
-	public String getErrorReason() {
-		return errorReason;
-	}
-
-	public void setErrorReason(String errorReason) {
-		this.errorReason = errorReason;
-	}
-
 }

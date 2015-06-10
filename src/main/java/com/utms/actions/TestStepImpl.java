@@ -4,7 +4,7 @@ import com.utms.Interfaces.IPerformAction;
 import com.utms.Interfaces.ITestStep;
 import com.utms.actions.Action.Types;
 import com.utms.entity.TestStepResults;
-import com.utms.resources.Parameters;
+import com.utms.exceptions.TestStepFailedException;
 
 /**
  * Created by sudheer on 30/5/15.
@@ -29,21 +29,17 @@ public class TestStepImpl implements ITestStep {
 		return super.toString();
 	}
 
-	public TestStepResults execute(IPerformAction performAction) {
+	public TestStepResults execute(IPerformAction performAction)
+			throws TestStepFailedException {
 
 		TestStepResults testStepResult = null;
 		try {
-			
+
 			testStepResult = performAction.execute(actionType, xPath, data);
-			
+
 		} catch (Exception e) {
-			
-		} finally {
-			
-			if (testStepResult.getResult().equalsIgnoreCase(Parameters.FAILED)) {
-				performAction.takeScreenShot();
-			}
-			
+			performAction.takeScreenShot();
+			throw new TestStepFailedException(testStepResult.getErrorReason());
 		}
 
 		return testStepResult;

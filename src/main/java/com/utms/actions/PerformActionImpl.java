@@ -25,6 +25,7 @@ import com.utms.Interfaces.IPerformAction;
 import com.utms.actions.Action.Types;
 import com.utms.entity.ScreenShotDetails;
 import com.utms.entity.TestStepResults;
+import com.utms.exceptions.TestStepFailedException;
 import com.utms.resources.Parameters;
 
 @Component
@@ -41,7 +42,7 @@ public class PerformActionImpl implements IPerformAction {
 		System.out.println("Result : " + testStepResult);
 	}
 
-	private boolean verifyIsPresent(String xPath) {
+	private boolean verifyIsPresent(String xPath) throws TestStepFailedException {
 
 		try {
 			driver.findElement(By.xpath(xPath)).isDisplayed();
@@ -51,22 +52,23 @@ public class PerformActionImpl implements IPerformAction {
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED,
 					"Element Is Not Present In the Page ", "Invisible Element");
-			return false;
+			throw new TestStepFailedException("Invisible Element", e);
 		}
 	}
 
-	private void acceptAlert() {
+	private void acceptAlert() throws TestStepFailedException {
 		try {
 			Alert alert = driver.switchTo().alert();
 			alert.accept();
 			setTestStepResult(Parameters.PASSED, " Unable to click Alert ", "");
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED, "", " Unable to click Alert ");
+			throw new TestStepFailedException("Unable to click Alert", e);
 		}
 
 	}
 
-	private void keyPress(String xPath, String data) {
+	private void keyPress(String xPath, String data) throws TestStepFailedException {
 
 		String value;
 		try {
@@ -80,17 +82,18 @@ public class PerformActionImpl implements IPerformAction {
 			setTestStepResult(Parameters.FAILED,
 					"Can't get Key for the given value  " + data,
 					"No Key available in this number");
-			return;
+			throw new TestStepFailedException("No Key available in this number", ie);
 		} catch (Exception e) {
 
 			setTestStepResult(Parameters.FAILED,
 					"Unable to performing KeyPress",
 					"Exception while performing KeyPress Event");
+			throw new TestStepFailedException("Exception while performing KeyPress Event", e);
 		}
 
 	}
 
-	private void waitForElement(String xPath, String waittime) {
+	private void waitForElement(String xPath, String waittime) throws TestStepFailedException {
 
 		long seconds = Integer.parseInt(waittime) / 1000;
 
@@ -102,13 +105,14 @@ public class PerformActionImpl implements IPerformAction {
 				}
 
 			} catch (Exception e) {
+				throw new TestStepFailedException("Exception while waiting for element ", e);
 			}
 			seconds--;
 			waitTime("1000");
 		}
 	}
 
-	private void openUrl(String url) {
+	private void openUrl(String url) throws TestStepFailedException {
 
 		try {
 
@@ -122,11 +126,12 @@ public class PerformActionImpl implements IPerformAction {
 			System.out.println("Unable To Close The Driver");
 			setTestStepResult(Parameters.FAILED, "", "Unable To Open The URl "
 					+ driver.getCurrentUrl());
+			throw new TestStepFailedException("Unable To Open The URl ", e);
 		}
 
 	}
 
-	private void click(String xPath) {
+	private void click(String xPath) throws TestStepFailedException {
 
 		try {
 
@@ -141,10 +146,12 @@ public class PerformActionImpl implements IPerformAction {
 			System.out.println("Unable To Close The Driver");
 			setTestStepResult(Parameters.FAILED, "", "Unable to Clicked Element "
 					+ xPath);
+			throw new TestStepFailedException("Unable to Clicked Element "
+					+ xPath , e);
 		}
 	}
 
-	private void clearField(String xPath) {
+	private void clearField(String xPath) throws TestStepFailedException {
 
 		try {
 
@@ -158,11 +165,12 @@ public class PerformActionImpl implements IPerformAction {
 			System.out.println("Unable To Close The Driver");
 			setTestStepResult(Parameters.FAILED, "",
 					"Unable To Clear The Field");
+			throw new TestStepFailedException("Unable To Clear The Field", e);
 		}
 
 	}
 
-	private void enter(String xPath, String data) {
+	private void enter(String xPath, String data) throws TestStepFailedException {
 
 		try {
 
@@ -174,11 +182,12 @@ public class PerformActionImpl implements IPerformAction {
 
 			setTestStepResult(Parameters.FAILED, "",
 					"Unable To Entered The Data ");
+			throw new TestStepFailedException("Unable To Entered The Data", e);
 		}
 
 	}
 
-	private void closeBrowser() {
+	private void closeBrowser() throws TestStepFailedException {
 		try {
 			driver.close();
 			setTestStepResult(Parameters.PASSED, "browser succesfully closed",
@@ -187,20 +196,22 @@ public class PerformActionImpl implements IPerformAction {
 			System.out.println("Unable To Close The Browser");
 			setTestStepResult(Parameters.FAILED, "",
 					"Unable To Close the Browser");
+			throw new TestStepFailedException("Unable To Close the Browser", e);
 		}
 	}
 
-	private void closeDriver() {
+	private void closeDriver() throws TestStepFailedException {
 		try {
 			driver.quit();
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED, "",
 					"Unable To Close The Driver");
+			throw new TestStepFailedException("Unable To Close The Driver", e);
 		}
 
 	}
 
-	private void clearSession() {
+	private void clearSession() throws TestStepFailedException {
 
 		try {
 
@@ -213,11 +224,12 @@ public class PerformActionImpl implements IPerformAction {
 
 			setTestStepResult(Parameters.FAILED, "",
 					"Unable To Delete Cookies & Reload The Page");
+			throw new TestStepFailedException("Unable To Delete Cookies & Reload The Page", e);
 
 		}
 	}
 
-	private void waitTime(String time) {
+	private void waitTime(String time) throws TestStepFailedException {
 
 		try {
 
@@ -227,15 +239,17 @@ public class PerformActionImpl implements IPerformAction {
 
 			setTestStepResult(Parameters.FAILED, "Unable To Parse the data",
 					"You Should Provide Number of time for wait");
+			throw new TestStepFailedException("You Should Provide Number of time for wait", e);
 
 		} catch (InterruptedException e) {
 			setTestStepResult(Parameters.FAILED,
 					"Unable To Wait For Given Time",
 					"Got exception in time of waiting");
+			throw new TestStepFailedException("Got exception in time of waiting", e);
 		}
 	}
 
-	private void select(String xPath, String data, String whichBasis) {
+	private void select(String xPath, String data, String whichBasis) throws TestStepFailedException {
 
 		Select select = null;
 
@@ -252,7 +266,7 @@ public class PerformActionImpl implements IPerformAction {
 					setTestStepResult(Parameters.FAILED,
 							"Can not create select object ",
 							"Trying To Selection Negetive Indexed option ");
-					return;
+					throw new TestStepFailedException("Trying To Selection Negetive Indexed option");
 				}
 
 			} else if (whichBasis.equalsIgnoreCase("byText")) {
@@ -263,7 +277,7 @@ public class PerformActionImpl implements IPerformAction {
 					setTestStepResult(Parameters.FAILED,
 							"Can not create select object ",
 							"Trying To Selection Without Any Data ");
-					return;
+					throw new TestStepFailedException("Trying To Selection Without Any Data");
 				}
 
 			} else if (whichBasis.equalsIgnoreCase("byValue")) {
@@ -274,7 +288,7 @@ public class PerformActionImpl implements IPerformAction {
 					setTestStepResult(Parameters.FAILED,
 							"Can not create select object ",
 							"Trying To Selection Without Any Value ");
-					return;
+					throw new TestStepFailedException("Trying To Selection Without Any Value");
 				}
 
 			} else {
@@ -290,11 +304,12 @@ public class PerformActionImpl implements IPerformAction {
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED, "",
 					"Exception in creating select object ");
+			throw new TestStepFailedException("Exception in creating select object", e);
 		}
 
 	}
 
-	private void selectFrame(String xPath, String data, String whichBasis) {
+	private void selectFrame(String xPath, String data, String whichBasis) throws TestStepFailedException {
 
 		try {
 			if (whichBasis.equalsIgnoreCase("byXpath")) {
@@ -307,7 +322,7 @@ public class PerformActionImpl implements IPerformAction {
 					setTestStepResult(Parameters.FAILED,
 							"Can not select frame ",
 							"Trying To Selection Without Xpath ");
-					return;
+					throw new TestStepFailedException("Trying To Selection Without Xpath");
 				}
 
 			} else {
@@ -317,7 +332,7 @@ public class PerformActionImpl implements IPerformAction {
 					setTestStepResult(Parameters.FAILED,
 							"Can not select the frame ",
 							"Trying To Selection Negetive Indexed option ");
-					return;
+					throw new TestStepFailedException("Trying To Selection Negetive Indexed option");
 				}
 			}
 
@@ -326,14 +341,16 @@ public class PerformActionImpl implements IPerformAction {
 		} catch (NoSuchFrameException e) {
 			setTestStepResult(Parameters.FAILED,
 					" Unable to select the frame  ", "No such frame found");
+			throw new TestStepFailedException("No such frame found", e);
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED, "Unale to select the frame ",
 					" Exception in executing SELECTFRAME ");
+			throw new TestStepFailedException("Exception in executing SELECTFRAME", e);
 		}
 
 	}
 
-	private void check(String xPath) {
+	private void check(String xPath) throws TestStepFailedException {
 		try {
 
 			if (!xPath.equalsIgnoreCase("")) {
@@ -344,16 +361,18 @@ public class PerformActionImpl implements IPerformAction {
 				setTestStepResult(Parameters.FAILED,
 						"Can not Check The Element",
 						"Trying To Selection Without Xpath ");
+				throw new TestStepFailedException("Trying To Selection Without Xpath");
 			}
 
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED,
 					" Unable to perform Check / uncheck",
 					"Exception when check on element");
+			throw new TestStepFailedException("Exception when check on element", e);
 		}
 	}
 
-	private void mouseOver(String xPath) {
+	private void mouseOver(String xPath) throws TestStepFailedException {
 		try {
 
 			WebElement element = driver.findElement(By.xpath(xPath));
@@ -365,11 +384,12 @@ public class PerformActionImpl implements IPerformAction {
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED, " Unable get the Element",
 					"Exception when trying to get the element");
+			throw new TestStepFailedException("Exception when trying to get the element", e);
 		}
 
 	}
 
-	private void selectWindow() {
+	private void selectWindow() throws TestStepFailedException {
 
 		try {
 			waitTime("2000");
@@ -380,10 +400,11 @@ public class PerformActionImpl implements IPerformAction {
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED, "",
 					" Exception in executing SELECTWINDOW ");
+			throw new TestStepFailedException("Exception in executing SELECTWINDOW", e);
 		}
 	}
 
-	private void goBack() {
+	private void goBack() throws TestStepFailedException {
 
 		try {
 			driver.navigate().back();
@@ -403,24 +424,27 @@ public class PerformActionImpl implements IPerformAction {
 
 					wait.until(expectation);
 
-				} catch (Throwable error) {
+				} catch (Exception e) {
 					setTestStepResult(Parameters.FAILED, "",
 							"Page still loaing");
+					throw new TestStepFailedException("Page still loaing", e);
 				}
 
 				setTestStepResult(Parameters.PASSED,
 						"Has gone to the Back Page Successfully ", "");
 			} catch (Exception e) {
 				setTestStepResult(Parameters.FAILED, "",
-						"exception waitforpageload : ");
+						"Exception waitforpageload : ");
+				throw new TestStepFailedException("Exception waitforpageload : ", e);
 			}
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED, "",
 					" Exception in executing GOBACK");
+			throw new TestStepFailedException(" Exception in executing GOBACK", e);
 		}
 	}
 
-	private void refreshPage() {
+	private void refreshPage() throws TestStepFailedException {
 
 		try {
 			driver.navigate().refresh();
@@ -430,29 +454,30 @@ public class PerformActionImpl implements IPerformAction {
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED, "Unable to refresh the page",
 					"Exception When Refreshing the page");
+			throw new TestStepFailedException("Exception When Refreshing the page", e);
 		}
 
 	}
 
-	public void dragAndDrop(String srcXpath, String destXpath) {
+	public void dragAndDrop(String srcXpath, String destXpath) throws TestStepFailedException {
 
 		if (srcXpath.equals(destXpath)) {
 			setTestStepResult(Parameters.FAILED, "",
 					" Source and destination points are same ");
-			return;
+			throw new TestStepFailedException("Source and destination points are same ");
 		}
 
 		if (srcXpath.equals("") || destXpath.equals("")) {
 			setTestStepResult(Parameters.FAILED, "",
 					" One of the target fields are resolved to be empty ");
-			return;
+			throw new TestStepFailedException(" One of the target fields are resolved to be empty");
 		}
 
 		By src = By.xpath(srcXpath);
 
 		if (src == null) {
 			setTestStepResult(Parameters.FAILED, "", "Source element not found");
-			return;
+			throw new TestStepFailedException("Source element not found");
 		}
 
 		By destn = By.xpath(destXpath);
@@ -460,7 +485,7 @@ public class PerformActionImpl implements IPerformAction {
 		if (destn == null) {
 			setTestStepResult(Parameters.FAILED, "",
 					"Destination element not found");
-			return;
+			throw new TestStepFailedException("Destination element not found");
 		}
 
 		try {
@@ -471,23 +496,25 @@ public class PerformActionImpl implements IPerformAction {
 		} catch (Exception e) {
 			setTestStepResult(Parameters.FAILED, "",
 					" Exception while performing drag and drop operation");
+			throw new TestStepFailedException(" Exception while performing drag and drop operation", e);
 		}
 	}
 
-	private void createDir(String dirName, String errorMessage) {
+	private void createDir(String dirName, String message) throws TestStepFailedException {
 		File file = new File(dirName);
 		try {
 			if (!file.exists()) {
 				file.mkdir();
-				System.out.println("Directory Created :: " + errorMessage);
+				System.out.println("Directory Created :: " + message);
 			}
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			System.out.println("Unable to create directory with "
-					+ errorMessage);
+					+ message);
+			throw new TestStepFailedException("Unable to create directory with "+message, e);
 		}
 	}
 
-	public void takeScreenShot() {
+	public void takeScreenShot() throws TestStepFailedException{
 
 		String name = "ScreenShots//" + ScreenShotDetails.getProjectName();
 				
@@ -526,6 +553,7 @@ public class PerformActionImpl implements IPerformAction {
 			System.out.println(strScreenshotName);
 		} catch (Exception e) {
 			System.out.println("Unable to take the screenshot");
+			throw new TestStepFailedException("Unable to take the screenshot ", e);
 		}
 	}
 
@@ -541,7 +569,7 @@ public class PerformActionImpl implements IPerformAction {
 	}
 
 	public TestStepResults execute(Types actionType, String xPath, String data)
-			throws IllegalArgumentException {
+			throws IllegalArgumentException, TestStepFailedException{
 
 		validateData(actionType, xPath);
 

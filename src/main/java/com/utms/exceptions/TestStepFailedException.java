@@ -6,8 +6,12 @@ package com.utms.exceptions;
 @SuppressWarnings("serial")
 public class TestStepFailedException extends Exception {
 
-	public TestStepFailedException() {
+	public TestStepFailedException(String reason) {
 		// TODO Auto-generated constructor stub
-		super("Test Step Failed!!!!");
+		super(reason);
+	}
+	public TestStepFailedException(String reason, Exception e) {
+		// TODO Auto-generated constructor stub
+		super(reason,e);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import org.openqa.selenium.Platform;
@@ -18,11 +19,16 @@ import com.utms.Interfaces.ITestSuite;
 import com.utms.entity.AutoTestCase;
 import com.utms.entity.ExeConfig;
 import com.utms.entity.ExeConfigRefOsRefBrowser;
+import com.utms.entity.ExeRun;
 import com.utms.entity.RefOsRefBrowser;
 import com.utms.entity.ScreenShotDetails;
 import com.utms.entity.TestCaseResults;
 import com.utms.entity.TestStepResults;
+import com.utms.exceptions.TestCaseFailedException;
+import com.utms.exceptions.TestStepFailedException;
+import com.utms.repo.ExeRunRepository;
 import com.utms.resources.Parameters;
+import com.utms.util.PropWithinClasspath;
 
 /**
  * Created by sudheer on 30/5/15.
@@ -30,6 +36,7 @@ import com.utms.resources.Parameters;
 @Component
 public class TestSuiteImpl implements ITestSuite, Runnable {
 
+	private ExeRunRepository exeRunRepository = null;
 	private IPerformAction performAction = null;
 	private ExeConfig exeConfig = null;
 	private List<ExeConfigRefOsRefBrowser> listOfConfigs = null;
@@ -51,78 +58,94 @@ public class TestSuiteImpl implements ITestSuite, Runnable {
 
 	}
 
-	private DesiredCapabilities getCapability(String browserName,
+	private DesiredCapabilities getDesiredCapability(String browserName,
 			String browserVersion, String osName) {
 		return new DesiredCapabilities(browserName, "",
 				Platform.fromString(osName));
 	}
+	
+	private DesiredCapabilities getDesiredCapability(RefOsRefBrowser osAndBrowser){
+		return getDesiredCapability(osAndBrowser
+				.getRefBrowser().getName(), "", osAndBrowser
+				.getRefOperatingSystem().getName());
+	}	
 
 	public void execute(ExeConfigRefOsRefBrowser exeConfigRefOsRefBrowser) {
 
 		// Get the test cases from the db
 		Set<AutoTestCase> autoTestCases = exeConfig.getAutoTestCases();
 
-		// FIXME: for now assuming there is only one browser and os per suite
-		// need to discuss
-		RefOsRefBrowser osAndBrowser = exeConfigRefOsRefBrowser
-				.getRefOsRefBrowser();
-		DesiredCapabilities capabilities = getCapability(osAndBrowser
-				.getRefBrowser().getName(), "", osAndBrowser
-				.getRefOperatingSystem().getName());
-
+		DesiredCapabilities capabilities = getDesiredCapability(exeConfigRefOsRefBrowser.getRefOsRefBrowser());
+		
+		Properties properties = PropWithinClasspath.getProperties("dev/config.properties");
 		WebDriver driver = com.utms.util.DriverFactory.getDriverInstance(
-				capabilities, Parameters.ISREMOTE);
+				capabilities,  Boolean.parseBoolean(properties.getProperty("ISREMOTE")));
 
 		setScreenShotDetails(exeConfig, capabilities);
 
 		performAction.setDriver(driver);
 
-		performAction.execute(Action.getActionTypeByString("openurl"), "temp",
-				exeConfig.getRefUrl().getUrl());
+		
 		ITestCase testCase = new TestCaseImpl();
 
 		Set<TestCaseResults> allTestCaseResults = new HashSet<TestCaseResults>();
 
+		ExeRun exeRun = new ExeRun(exeConfigRefOsRefBrowser,new Date(),null,null);
+
+		TestCaseResults testCaseResults = null;
+
+		try {
+			performAction.execute(Action.getActionTypeByString("openurl"),
+					"temp", exeConfig.getRefUrl().getUrl());
+		} catch (TestStepFailedException e1) {
+			System.out.println( e1.getMessage());
+			return;
+		} catch (IllegalArgumentException iae) {
+			System.out.println( iae.getMessage());
+			return;
+		}
+		
 		for (AutoTestCase autoTestCase : autoTestCases) {
 
-			TestCaseResults testCaseResults = new TestCaseResults();
+			testCaseResults = new TestCaseResults();
 
 			ScreenShotDetails.setTestCaseName(autoTestCase.getName());
 
+			testCaseResults.setAutoTestCase(autoTestCase);
 			testCaseResults.setStartDateTime(new Date());
+
 			Set<TestStepResults> testStepResults = null;
 			try {
 				// This is a test case
 				testStepResults = testCase.execute(autoTestCase, performAction);
-				
-			} catch (Exception e) {
+				testCaseResults.setResult(Parameters.PASSED);
+
+			} catch (TestCaseFailedException e) {
+				testCaseResults.setResult(Parameters.FAILED);
+				testCaseResults.setErrorReason(e.getMessage());
+				testCaseResults.setExeRun(exeRun);
 
 			} finally {
 
 				testCaseResults.setEndDateTime(new Date());
-
-				if ((testCase.getErrorReason()) == null) {
-					testCaseResults.setResult(Parameters.PASSED);
-				} else {
-					testCaseResults.setResult(Parameters.FAILED);
-					testCaseResults.setErrorReason(testCase.getErrorReason());
-				}
-
 				testCaseResults.setTestStepResultses(testStepResults);
-
 				allTestCaseResults.add(testCaseResults);
-
-				System.out.println("Results : " + allTestCaseResults);
 			}
-			
-
 		}
-		// return report;
-		performAction.execute(Action.getActionTypeByString("closebrowser"),
-				"temp", "");
-		performAction.execute(Action.getActionTypeByString("closedriver"),
-				"temp", "");
 
+		System.out.println("Results : " + allTestCaseResults);
+		exeRun.setTestCaseResultses(allTestCaseResults);
+		exeRun.setEndDateTime(new Date());
+		exeRunRepository.save(exeRun);
+		// return report;
+		try {
+			performAction.execute(Action.getActionTypeByString("closebrowser"),
+					"temp", "");
+			performAction.execute(Action.getActionTypeByString("closedriver"),
+					"temp", "");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	private void setScreenShotDetails(ExeConfig exeConfig,
@@ -143,8 +166,13 @@ public class TestSuiteImpl implements ITestSuite, Runnable {
 
 	@Override
 	public void run() {
+		//TODO:  See how we handle crashes
 		ExeConfigRefOsRefBrowser exeConfigRefOsRefBrowser = listOfConfigs
 				.remove(0);
 		execute(exeConfigRefOsRefBrowser);
+	}
+
+	public void setExeRunRepository(ExeRunRepository exeRunRepository) {
+		this.exeRunRepository = exeRunRepository;
 	}
 }

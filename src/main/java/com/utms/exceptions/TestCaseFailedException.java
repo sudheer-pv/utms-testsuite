@@ -6,8 +6,8 @@ package com.utms.exceptions;
  */
 @SuppressWarnings("serial")
 public class TestCaseFailedException extends Throwable {
-    public TestCaseFailedException() {
+    public TestCaseFailedException(String reason) {
 		// TODO Auto-generated constructor stub
-    	super("Test Case Failed!!!!!");
+    	super(reason);
 	}
 }

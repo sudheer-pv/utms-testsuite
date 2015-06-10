@@ -2,6 +2,7 @@ package com.utms.util;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -50,7 +51,8 @@ public class DriverFactory {
 	private static WebDriver getRemoteDriverInstance(
 			DesiredCapabilities capabilities) {
 		try {
-			return new RemoteWebDriver(new URL(Parameters.HUBURL), capabilities);
+			Properties properties = PropWithinClasspath.getProperties("dev/config.properties");
+			return new RemoteWebDriver(new URL(properties.getProperty("HUBURL")), capabilities);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			return null;
