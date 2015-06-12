@@ -2,6 +2,7 @@ package com.utms.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import com.utms.repo.ExeRunRepository;
 /**
  * Created by sudheer on 30/5/15.
  */
+//@Transactional(readOnly = true)
 @RestController
 public class ProjectServices {
 
@@ -37,6 +39,7 @@ public class ProjectServices {
     public String get() {
         return new String("Get");
     }*/
+    
     
     @Autowired
     ExeConfigRepository exeConfigRepository;

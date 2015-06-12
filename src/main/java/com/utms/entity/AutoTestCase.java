@@ -136,9 +136,6 @@ public class AutoTestCase  implements java.io.Serializable {
         this.allAutoStepsesForLinkedAutoTestcaseId = allAutoStepsesForLinkedAutoTestcaseId;
     }
 
-
-
-
 }
 
 

@@ -39,7 +39,7 @@ public class PerformActionImpl implements IPerformAction {
 		testStepResult.setResult(status);
 		testStepResult.setComments(comments);
 		testStepResult.setErrorReason(errorReason);
-		System.out.println("Result : " + testStepResult);
+		
 	}
 
 	private boolean verifyIsPresent(String xPath) throws TestStepFailedException {

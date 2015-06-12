@@ -24,15 +24,12 @@ public class TestStepImpl implements ITestStep {
 		this.xPath = xPath;
 	}
 
-	@Override
-	public String toString() {
-		return super.toString();
-	}
+
 
 	public TestStepResults execute(IPerformAction performAction)
 			throws TestStepFailedException {
 
-		TestStepResults testStepResult = null;
+		TestStepResults testStepResult = new TestStepResults();
 		try {
 
 			testStepResult = performAction.execute(actionType, xPath, data);
@@ -43,6 +40,12 @@ public class TestStepImpl implements ITestStep {
 		}
 
 		return testStepResult;
+	}
+
+	@Override
+	public String toString() {
+		return "TestStepImpl [actionType=" + actionType + ", data=" + data
+				+ ", xPath=" + xPath + "]";
 	}
 
 }

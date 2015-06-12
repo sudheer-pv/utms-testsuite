@@ -84,6 +84,15 @@ public class RefOsRefBrowser  implements java.io.Serializable {
         this.exeConfigRefOsRefBrowsers = exeConfigRefOsRefBrowsers;
     }
 
+	@Override
+	public String toString() {
+		return "RefOsRefBrowser [id=" + id + ", refOperatingSystem="
+				+ refOperatingSystem + ", refBrowser=" + refBrowser
+				+ ", exeConfigRefOsRefBrowsers=" + exeConfigRefOsRefBrowsers
+				+ "]";
+	}
+    
+    
 
 
 

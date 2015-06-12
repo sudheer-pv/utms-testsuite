@@ -20,6 +20,7 @@ import com.utms.exceptions.TestStepFailedException;
 /**
  * Created by sudheer on 30/5/15.
  */
+
 @Component
 public class TestCaseImpl implements ITestCase {
 
@@ -35,10 +36,12 @@ public class TestCaseImpl implements ITestCase {
 				.getAllAutoStepsesForAutoTestcaseId();
 
 		ITestStep testStep = null;
+//		System.out.println("Steps are : "+steps );
 		
 		for (AllAutoSteps allAutoTestStep : steps) {
 			TestStepResults testStepResult = new TestStepResults();
-			
+			Date startdate=null;
+//			System.out.println("Test Step is : "+allAutoTestStep);
 			try {
 				if (!allAutoTestStep.getIsTestStep()) {
 					// Means this is a test case
@@ -49,24 +52,35 @@ public class TestCaseImpl implements ITestCase {
 							performAction);
 				} else {
 					// This is a test step
-					AutoTestStep autoTestStep = allAutoTestStep
-							.getAutoTestStep();
+//					System.out.println("Entered else");
+					AutoTestStep autoTestStep = allAutoTestStep.getAutoTestStep();
+//					System.out.println("autoTestStep : "+autoTestStep);
 					ScreenShotDetails.setTestStepId(autoTestStep.getId());
+//					System.out.println("Set screenshot details");
+//					System.out.println("Stage 1 completed : ");
+					
+//					System.out.println("keyword : "+autoTestStep.getRefKeyword().getName());
+//					System.out.println("object : "+autoTestStep.getObject().getLocator());
+//					System.out.println("data : "+autoTestStep.getTestData());
+					
 					testStep = new TestStepImpl(autoTestStep.getRefKeyword()
 							.getName(), autoTestStep.getObject().getLocator(),
 							autoTestStep.getTestData());
 					
-					testStepResult.setStartDateTime(new Date());
+					startdate = new Date();
+					
 					testStepResult = testStep.execute(performAction);
 
 				}
 			} catch (TestStepFailedException e) {
 				e.printStackTrace();
-				throw new TestCaseFailedException(e.getMessage());
+				throw new TestCaseFailedException(e.getMessage(), e);
 				
 			}finally{
+				testStepResult.setStartDateTime(startdate);
 				testStepResult.setEndDateTime(new Date());
 				allTestStepResults.add(testStepResult);
+				System.out.println("Result : " + testStepResult);
 			}
 
 			// TODO: make checks if result is correct or not

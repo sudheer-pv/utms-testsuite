@@ -135,6 +135,15 @@ public class TestCaseResults  implements java.io.Serializable {
         this.testStepResultses = testStepResultses;
     }
 
+	@Override
+	public String toString() {
+		return "TestCaseResults [id=" + id + ", exeRun=" + exeRun
+				+ ", autoTestCase=" + autoTestCase + ", result=" + result
+				+ ", errorReason=" + errorReason + ", startDateTime="
+				+ startDateTime + ", endDateTime=" + endDateTime
+				+ ", testStepResultses=" + testStepResultses + "]";
+	}
+
 
 
 

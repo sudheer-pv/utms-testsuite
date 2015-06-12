@@ -121,6 +121,15 @@ public class TestStepResults  implements java.io.Serializable {
         this.comments = comments;
     }
 
+	@Override
+	public String toString() {
+		return "TestStepResults [id=" + id + ", testCaseResults="
+				+ testCaseResults + ", result=" + result + ", errorReason="
+				+ errorReason + ", startDateTime=" + startDateTime
+				+ ", endDateTime=" + endDateTime + ", comments=" + comments
+				+ "]";
+	}
+
 
 
 

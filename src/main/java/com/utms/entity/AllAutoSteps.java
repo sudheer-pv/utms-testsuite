@@ -93,9 +93,7 @@ public class AllAutoSteps  implements java.io.Serializable {
         this.isTestStep = isTestStep;
     }
 
-
-
-
+	
 }
 
 

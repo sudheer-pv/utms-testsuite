@@ -80,7 +80,7 @@ public class AutoTestStep  implements java.io.Serializable {
         this.testStep = testStep;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="refKeyword_id")
     public RefKeyword getRefKeyword() {
         return this.refKeyword;
@@ -110,8 +110,7 @@ public class AutoTestStep  implements java.io.Serializable {
         this.allAutoStepses = allAutoStepses;
     }
 
-
-
+	
 
 }
 

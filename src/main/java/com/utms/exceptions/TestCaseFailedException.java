@@ -1,6 +1,7 @@
 package com.utms.exceptions;
 
 
+
 /**
  * Created by sudheer on 30/5/15.
  */
@@ -10,4 +11,7 @@ public class TestCaseFailedException extends Throwable {
 		// TODO Auto-generated constructor stub
     	super(reason);
 	}
+    public TestCaseFailedException(String reason, Exception e){
+    	super(reason, e);
+    }
 }

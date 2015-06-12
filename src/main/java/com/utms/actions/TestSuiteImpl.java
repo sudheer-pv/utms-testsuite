@@ -33,6 +33,7 @@ import com.utms.util.PropWithinClasspath;
 /**
  * Created by sudheer on 30/5/15.
  */
+
 @Component
 public class TestSuiteImpl implements ITestSuite, Runnable {
 
@@ -41,18 +42,21 @@ public class TestSuiteImpl implements ITestSuite, Runnable {
 	private ExeConfig exeConfig = null;
 	private List<ExeConfigRefOsRefBrowser> listOfConfigs = null;
 
+
+	
+	
+	
 	public void invokeTestSuite(ExeConfig exeConfig) {
 
 		this.exeConfig = exeConfig;
-
 		listOfConfigs = new ArrayList<ExeConfigRefOsRefBrowser>();
-
 		listOfConfigs.addAll(exeConfig.getExeConfigRefOsRefBrowsers());
-
+		
+//		System.out.println("Step1 : "+listOfConfigs+"  "+ listOfConfigs.size());
+		
 		for (int i = 0; i < listOfConfigs.size(); i++) {
 
-			TestSuiteImpl testSuite = new TestSuiteImpl();
-			Thread thread = new Thread(testSuite);
+			Thread thread = new Thread(this);
 			thread.start();
 		}
 
@@ -66,8 +70,8 @@ public class TestSuiteImpl implements ITestSuite, Runnable {
 	
 	private DesiredCapabilities getDesiredCapability(RefOsRefBrowser osAndBrowser){
 		return getDesiredCapability(osAndBrowser
-				.getRefBrowser().getName(), "", osAndBrowser
-				.getRefOperatingSystem().getName());
+				.getRefBrowser().getName().toLowerCase(), "", osAndBrowser
+				.getRefOperatingSystem().getName().toLowerCase());
 	}	
 
 	public void execute(ExeConfigRefOsRefBrowser exeConfigRefOsRefBrowser) {
@@ -75,11 +79,14 @@ public class TestSuiteImpl implements ITestSuite, Runnable {
 		// Get the test cases from the db
 		Set<AutoTestCase> autoTestCases = exeConfig.getAutoTestCases();
 
+//		System.out.println("All Auto Test Cases: "+autoTestCases);
+		
 		DesiredCapabilities capabilities = getDesiredCapability(exeConfigRefOsRefBrowser.getRefOsRefBrowser());
 		
 		Properties properties = PropWithinClasspath.getProperties("dev/config.properties");
+//		System.out.println(properties+"    "+Boolean.valueOf(properties.getProperty("ISREMOTE").trim())+"*****"+properties.getProperty("ISREMOTE")+"*****");
 		WebDriver driver = com.utms.util.DriverFactory.getDriverInstance(
-				capabilities,  Boolean.parseBoolean(properties.getProperty("ISREMOTE")));
+				capabilities,  Boolean.valueOf(properties.getProperty("ISREMOTE").trim()));
 
 		setScreenShotDetails(exeConfig, capabilities);
 
@@ -107,6 +114,7 @@ public class TestSuiteImpl implements ITestSuite, Runnable {
 		
 		for (AutoTestCase autoTestCase : autoTestCases) {
 
+//			System.out.println("Auto Test Case: "+autoTestCase);
 			testCaseResults = new TestCaseResults();
 
 			ScreenShotDetails.setTestCaseName(autoTestCase.getName());
@@ -133,10 +141,10 @@ public class TestSuiteImpl implements ITestSuite, Runnable {
 			}
 		}
 
-		System.out.println("Results : " + allTestCaseResults);
+//		System.out.println("Results : " + allTestCaseResults);
 		exeRun.setTestCaseResultses(allTestCaseResults);
 		exeRun.setEndDateTime(new Date());
-		exeRunRepository.save(exeRun);
+		//exeRunRepository.save(exeRun);
 		// return report;
 		try {
 			performAction.execute(Action.getActionTypeByString("closebrowser"),
@@ -167,8 +175,7 @@ public class TestSuiteImpl implements ITestSuite, Runnable {
 	@Override
 	public void run() {
 		//TODO:  See how we handle crashes
-		ExeConfigRefOsRefBrowser exeConfigRefOsRefBrowser = listOfConfigs
-				.remove(0);
+		ExeConfigRefOsRefBrowser exeConfigRefOsRefBrowser = listOfConfigs.remove(0);
 		execute(exeConfigRefOsRefBrowser);
 	}
 
