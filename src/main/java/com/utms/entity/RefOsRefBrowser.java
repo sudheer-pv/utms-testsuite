@@ -55,7 +55,7 @@ public class RefOsRefBrowser  implements java.io.Serializable {
         this.id = id;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="refOs_id")
     public RefOperatingSystem getRefOperatingSystem() {
         return this.refOperatingSystem;
@@ -65,7 +65,7 @@ public class RefOsRefBrowser  implements java.io.Serializable {
         this.refOperatingSystem = refOperatingSystem;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="refBrowser_id")
     public RefBrowser getRefBrowser() {
         return this.refBrowser;
@@ -75,7 +75,7 @@ public class RefOsRefBrowser  implements java.io.Serializable {
         this.refBrowser = refBrowser;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="refOsRefBrowser")
+@OneToMany(fetch=FetchType.EAGER, mappedBy="refOsRefBrowser")
     public Set<ExeConfigRefOsRefBrowser> getExeConfigRefOsRefBrowsers() {
         return this.exeConfigRefOsRefBrowsers;
     }

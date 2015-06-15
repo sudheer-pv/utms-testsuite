@@ -13,6 +13,7 @@ import com.utms.entity.AllAutoSteps;
 import com.utms.entity.AutoTestCase;
 import com.utms.entity.AutoTestStep;
 import com.utms.entity.ScreenShotDetails;
+import com.utms.entity.TestCaseResults;
 import com.utms.entity.TestStepResults;
 import com.utms.exceptions.TestCaseFailedException;
 import com.utms.exceptions.TestStepFailedException;
@@ -29,7 +30,7 @@ public class TestCaseImpl implements ITestCase {
 	}
 
 	public Set<TestStepResults> execute(AutoTestCase autoTestCase,
-			IPerformAction performAction) throws TestCaseFailedException {
+			IPerformAction performAction, TestCaseResults testCaseResults, ScreenShotDetails screenShotDetails) throws TestCaseFailedException {
 
 		Set<TestStepResults> allTestStepResults = new HashSet<TestStepResults>();
 		Set<AllAutoSteps> steps = autoTestCase
@@ -49,13 +50,18 @@ public class TestCaseImpl implements ITestCase {
 							.getAutoTestCaseByAutoTestcaseId();
 					ITestCase testCase = new TestCaseImpl();
 					allTestStepResults = testCase.execute(refAutoTestCase,
-							performAction);
+							performAction, testCaseResults, screenShotDetails);
 				} else {
 					// This is a test step
+					
 //					System.out.println("Entered else");
+					
 					AutoTestStep autoTestStep = allAutoTestStep.getAutoTestStep();
+					
 //					System.out.println("autoTestStep : "+autoTestStep);
-					ScreenShotDetails.setTestStepId(autoTestStep.getId());
+					
+					screenShotDetails.setTestStepId(autoTestStep.getId());
+					
 //					System.out.println("Set screenshot details");
 //					System.out.println("Stage 1 completed : ");
 					
@@ -69,7 +75,7 @@ public class TestCaseImpl implements ITestCase {
 					
 					startdate = new Date();
 					
-					testStepResult = testStep.execute(performAction);
+					testStepResult = testStep.execute(performAction, screenShotDetails);
 
 				}
 			} catch (TestStepFailedException e) {
@@ -79,6 +85,7 @@ public class TestCaseImpl implements ITestCase {
 			}finally{
 				testStepResult.setStartDateTime(startdate);
 				testStepResult.setEndDateTime(new Date());
+				testStepResult.setTestCaseResults(testCaseResults);
 				allTestStepResults.add(testStepResult);
 				System.out.println("Result : " + testStepResult);
 			}

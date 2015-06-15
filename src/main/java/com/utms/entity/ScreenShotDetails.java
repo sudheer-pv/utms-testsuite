@@ -5,52 +5,85 @@ import java.util.Date;
 
 public class ScreenShotDetails {
 
-	private static String projectName = null;
-	private static String configName = null;
-	private static String testCaseName = null;
-	private static Integer testStepId;
-	private static String scrShotDirWithTimeStamp = null;
-	private static String browserName = null;
-	
-	public static String getProjectName() {
+	private String projectName = null;
+	private String configName = null;
+	private String testCaseName = null;
+	private Integer testStepId;
+	private String scrShotDirWithTimeStamp = null;
+	private String browserName = null;
+
+	public ScreenShotDetails() {
+	}
+
+	public ScreenShotDetails(String projectName, String configName,
+			String testCaseName, Integer testStepId,
+			String scrShotDirWithTimeStamp, String browserName) {
+		this.projectName = projectName;
+		this.configName = configName;
+		this.testCaseName = testCaseName;
+		this.testStepId = testStepId;
+		this.scrShotDirWithTimeStamp = scrShotDirWithTimeStamp;
+		this.browserName = browserName;
+	}
+
+	public String getProjectName() {
 		return projectName;
 	}
-	public static void setProjectName(String projectName) {
-		ScreenShotDetails.projectName = projectName;
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
-	public static String getConfigName() {
+
+	public String getConfigName() {
 		return configName;
 	}
-	public static void setConfigName(String configName) {
-		ScreenShotDetails.configName = configName;
+
+	public void setConfigName(String configName) {
+		this.configName = configName;
 	}
-	public static String getTestCaseName() {
+
+	public String getTestCaseName() {
 		return testCaseName;
 	}
-	public static void setTestCaseName(String testCaseName) {
-		ScreenShotDetails.testCaseName = testCaseName;
+
+	public void setTestCaseName(String testCaseName) {
+		this.testCaseName = testCaseName;
 	}
-	public static Integer getTestStepId() {
+
+	public Integer getTestStepId() {
 		return testStepId;
 	}
-	public static void setTestStepId(Integer testStepId) {
-		ScreenShotDetails.testStepId = testStepId;
+
+	public void setTestStepId(Integer testStepId) {
+		this.testStepId = testStepId;
 	}
-	public static String getScrShotDirWithTimeStamp() {
+
+	public String getScrShotDirWithTimeStamp() {
 		return scrShotDirWithTimeStamp;
 	}
-	
-	public static void setScrShotDirWithTimeStamp(String scrShotDirWithTimeStamp) {
-		ScreenShotDetails.scrShotDirWithTimeStamp = scrShotDirWithTimeStamp;
+
+	public void setScrShotDirWithTimeStamp(String scrShotDirWithTimeStamp) {
+		this.scrShotDirWithTimeStamp = scrShotDirWithTimeStamp;
 	}
-	
-	public static String getScreenShotNameWithTimeStamp() {
+
+	public String getScreenShotNameWithTimeStamp() {
 		return new SimpleDateFormat("MMddyy_HHmmss").format(new Date());
 	}
-	public static String getBrowserName() {
+
+	public String getBrowserName() {
 		return browserName;
 	}
-	public static void setBrowserName(String browserName) {
-		ScreenShotDetails.browserName = browserName;
+
+	public void setBrowserName(String browserName) {
+		this.browserName = browserName;
+	}
+
+	@Override
+	public String toString() {
+		return "ScreenShotDetails [projectName=" + projectName
+				+ ", configName=" + configName + ", testCaseName="
+				+ testCaseName + ", testStepId=" + testStepId
+				+ ", scrShotDirWithTimeStamp=" + scrShotDirWithTimeStamp
+				+ ", browserName=" + browserName + "]";
 	}
 }

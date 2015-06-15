@@ -73,7 +73,7 @@ public class RefBrowser  implements java.io.Serializable {
         this.imgUrl = imgUrl;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="refBrowser")
+@OneToMany(fetch=FetchType.EAGER, mappedBy="refBrowser")
     public Set<RefOsRefBrowser> getRefOsRefBrowsers() {
         return this.refOsRefBrowsers;
     }

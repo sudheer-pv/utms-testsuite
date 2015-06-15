@@ -39,6 +39,7 @@ public class TestCaseResults  implements java.io.Serializable {
      private String errorReason;
      private Date startDateTime;
      private Date endDateTime;
+//     private String screenShotDir;
      private Set<TestStepResults> testStepResultses = new HashSet<TestStepResults>(0);
 
     public TestCaseResults() {
@@ -135,6 +136,17 @@ public class TestCaseResults  implements java.io.Serializable {
         this.testStepResultses = testStepResultses;
     }
 
+    
+    /*
+    public String getScreenShotDir() {
+		return screenShotDir;
+	}
+
+	public void setScreenShotDir(String screenShotDir) {
+		this.screenShotDir = screenShotDir;
+	}*/
+
+    
 	@Override
 	public String toString() {
 		return "TestCaseResults [id=" + id + ", exeRun=" + exeRun
@@ -144,6 +156,7 @@ public class TestCaseResults  implements java.io.Serializable {
 				+ ", testStepResultses=" + testStepResultses + "]";
 	}
 
+	
 
 
 

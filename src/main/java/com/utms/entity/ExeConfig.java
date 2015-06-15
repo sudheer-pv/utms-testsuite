@@ -63,7 +63,7 @@ public class ExeConfig  implements java.io.Serializable {
         this.id = id;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="project_id")
     public Project getProject() {
         return this.project;
@@ -73,7 +73,7 @@ public class ExeConfig  implements java.io.Serializable {
         this.project = project;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="refUrl_id")
     public RefUrl getRefUrl() {
         return this.refUrl;
@@ -103,7 +103,7 @@ public class ExeConfig  implements java.io.Serializable {
         this.name = name;
     }
 
-@ManyToMany(fetch=FetchType.LAZY)
+@ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name="ExeConfigAutoTestCase", catalog="utms_latestV2", joinColumns = { 
         @JoinColumn(name="exeConfig_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
         @JoinColumn(name="autoTestCase_id", nullable=false, updatable=false) })
@@ -115,7 +115,7 @@ public class ExeConfig  implements java.io.Serializable {
         this.autoTestCases = autoTestCases;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="exeConfig")
+@OneToMany(fetch=FetchType.EAGER, mappedBy="exeConfig")
     public Set<ExeConfigRefOsRefBrowser> getExeConfigRefOsRefBrowsers() {
         return this.exeConfigRefOsRefBrowsers;
     }

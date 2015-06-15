@@ -2,6 +2,7 @@ package com.utms.Interfaces;
 
 import org.springframework.stereotype.Component;
 
+import com.utms.entity.ScreenShotDetails;
 import com.utms.entity.TestStepResults;
 import com.utms.exceptions.TestStepFailedException;
 
@@ -10,5 +11,5 @@ import com.utms.exceptions.TestStepFailedException;
  */
 @Component
 public interface ITestStep {
-	TestStepResults execute(IPerformAction actionToBePerformed) throws TestStepFailedException;
+	TestStepResults execute(IPerformAction actionToBePerformed, ScreenShotDetails screenShotDetails) throws TestStepFailedException;
 }

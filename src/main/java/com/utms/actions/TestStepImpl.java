@@ -3,6 +3,7 @@ package com.utms.actions;
 import com.utms.Interfaces.IPerformAction;
 import com.utms.Interfaces.ITestStep;
 import com.utms.actions.Action.Types;
+import com.utms.entity.ScreenShotDetails;
 import com.utms.entity.TestStepResults;
 import com.utms.exceptions.TestStepFailedException;
 
@@ -26,16 +27,16 @@ public class TestStepImpl implements ITestStep {
 
 
 
-	public TestStepResults execute(IPerformAction performAction)
-			throws TestStepFailedException {
+	public TestStepResults execute(IPerformAction performAction, ScreenShotDetails screenShotDetails)
+ throws TestStepFailedException {
 
 		TestStepResults testStepResult = new TestStepResults();
 		try {
-
-			testStepResult = performAction.execute(actionType, xPath, data);
+				testStepResult = performAction.execute(actionType, xPath, data);
 
 		} catch (Exception e) {
-			performAction.takeScreenShot();
+			System.out.println(screenShotDetails);
+			performAction.takeScreenShot(screenShotDetails);
 			throw new TestStepFailedException(testStepResult.getErrorReason());
 		}
 

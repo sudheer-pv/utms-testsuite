@@ -7,23 +7,21 @@ import java.util.Properties;
 
 public class PropWithinClasspath {
 
-	private static Properties prop = null;
+	private  Properties prop = null;
 
-	public static Properties getProperties(String path) {
+	public  Properties getProperties(String path) {
 
-		InputStream is = null;
-
-		if (prop == null) {
-			prop = new Properties();
-			is = PropWithinClasspath.class.getResourceAsStream("/" + path);
-			try {
-				prop.load(is);
-			} catch (IOException e) {
-				throw new IllegalPathStateException(
-						"Unable to load the properties file");
-			}
+		this.prop = new Properties();
+		InputStream is = PropWithinClasspath.class.getResourceAsStream("/"
+				+ path);
+		try {
+			this.prop.load(is);
+		} catch (IOException e) {
+			throw new IllegalPathStateException(
+					"Unable to load the properties file");
 		}
-		return prop;
+
+		return this.prop;
 
 	}
 

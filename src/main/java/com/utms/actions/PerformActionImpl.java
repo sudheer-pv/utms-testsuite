@@ -514,28 +514,29 @@ public class PerformActionImpl implements IPerformAction {
 		}
 	}
 
-	public void takeScreenShot() throws TestStepFailedException{
+	public void takeScreenShot(ScreenShotDetails screenShotDetails) throws TestStepFailedException{
 
-		String name = "ScreenShots//" + ScreenShotDetails.getProjectName();
-				
+		String name = "ScreenShots//" + screenShotDetails.getProjectName();
 		createDir(name, "Project Name");
 
+		
 		// name = name + "\\";
 
-		name = name + "//" + ScreenShotDetails.getConfigName();
+		name = name + "//" + screenShotDetails.getConfigName();
 		createDir(name, "Config Name");
 		
-		name = name + "//" + ScreenShotDetails.getScrShotDirWithTimeStamp();
+		name = name + "//" + screenShotDetails.getScrShotDirWithTimeStamp();
 		createDir(name, "TimeStamp");
 
 		// strScreenshotName = name + "\\" + +
 		// ScreenShotDetails.getTestCaseName()+"_"+ScreenShotDetails.getScreenShotNameWithTimeStamp()+".png";
 
 		String strScreenshotName = name + "//"
-				+ ScreenShotDetails.getTestCaseName() + "_"
-				+ ScreenShotDetails.getScreenShotNameWithTimeStamp() + ".png";
+				+ screenShotDetails.getTestCaseName() + "_"
+				+ screenShotDetails.getScreenShotNameWithTimeStamp() + ".png";
+		System.out.println("Screen Shot Name:  "+strScreenshotName);
 		try {
-			if ((ScreenShotDetails.getBrowserName())
+			if ((screenShotDetails.getBrowserName())
 					.equalsIgnoreCase("ANDROIDNATIVEAPP")) {
 				WebDriver augmentedDriver = new Augmenter().augment(driver);
 				File file = ((TakesScreenshot) augmentedDriver)
@@ -545,8 +546,10 @@ public class PerformActionImpl implements IPerformAction {
 			} else {
 				File file = ((TakesScreenshot) driver)
 						.getScreenshotAs(OutputType.FILE);
+				System.out.println("File : "+file);
 				FileUtils.copyFile(file, new File(strScreenshotName));
 				file.delete();
+				System.out.println("File Deleted: ");
 			}
 
 			strScreenshotName = ". Screen Shot : " + strScreenshotName;

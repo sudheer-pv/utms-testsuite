@@ -15,7 +15,7 @@ import com.utms.resources.Parameters;
 
 public class DriverFactory {
 
-	public static WebDriver getDriverInstance(DesiredCapabilities capabilities,
+	public static synchronized WebDriver getDriverInstance(DesiredCapabilities capabilities,
 			boolean isRemote) {
 		String browserName = capabilities.getBrowserName();
 		if (browserName.equalsIgnoreCase(Parameters.FIREFOX)) {
@@ -51,7 +51,7 @@ public class DriverFactory {
 	private static WebDriver getRemoteDriverInstance(
 			DesiredCapabilities capabilities) {
 		try {
-			Properties properties = PropWithinClasspath.getProperties("dev/config.properties");
+			Properties properties =new PropWithinClasspath().getProperties("dev/config.properties");
 			return new RemoteWebDriver(new URL(properties.getProperty("HUBURL")), capabilities);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
